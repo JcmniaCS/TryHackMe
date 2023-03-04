@@ -1,7 +1,9 @@
+
 #Skynet CTF Walkthrough
-Skynet is a vulnerable terminator themed linux machine on TryHackMe.com
+
+<p>Skynet is a vulnerable terminator themed linux machine on TryHackMe.com
 THM Difficulty: Easy
 Time:
-My Difficulty:
+My Difficulty:</p>
 
 ## Enumeration
