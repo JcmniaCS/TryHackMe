@@ -1,2 +1,2 @@
-# TryHackMe
-Skynet CTF
+# TryHackMe Skynet CTF Walkthrough
+Jcmnia
