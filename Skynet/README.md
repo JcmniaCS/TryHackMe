@@ -80,8 +80,20 @@ Question 1:<br />
 
 ## Exploiting Vulnerabilities
 
-Now that we have a login for the SquirrelMail server, we know about a vulnerability in this version and we know about an exploit for this service.
-Let's get to it!
+<p>Now that we have a login for the SquirrelMail server milesdyson:cyborg007haloterminator, we know about a vulnerability in this version(1.4.23) and we know about an exploit for this service(CVE-2017-7692) 
+Let's get to it!</p>
 
 ### Exploiting SquirrelMail
 
+<p>Firstly, let's login with the aquired username:password. We are greeted with the screen below.<br />
+SCREENSHOT10<br />
+Before we exploit the vulnerability, let's have a look around and see if we can find anything interesting...<br />
+The first thing that comes to my attention is the e-mails, let's have a look at each e-mail and see what's inside.<br />
+We see inside the bottom e-mail what looks like ????, let's decode it and see what it means...
+
+We see inside the second e-mail what looks like binary code, let's decode it and see what it means...<br />
+After converting the binary we see the string "balls have zero to me to me to me to me to me to me to me to me to" 
+
+Inside the top e-mail we see a password reset for Samba, maybe we can access the milesdyson share with this password?<br />
+
+</p>
