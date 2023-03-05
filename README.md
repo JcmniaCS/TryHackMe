@@ -1,5 +1,6 @@
 # TryHackMe
 My write-ups for TryHackMe CTF challenges<br />
+<b>These write-ups contain the answers to the challenges at the bottom of the specified boxes page. Try not to look at them if you're stuck, enumerate more go back and trace your steps to see if you missed anything.</b>
 <i>More will come over time, I'm just getting started.</i>
 
 ## Easy
