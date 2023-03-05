@@ -48,10 +48,19 @@ Interesting... Let's have a look at the sitemap at http://10.10.39.165:31331/ute
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT8.png?raw=true)<br />
 After having a look at all of the pages we find a login page at http://10.10.39.165:31331/partners.html<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT9.png?raw=true)<br />
-Not really helpful to us since we still don't have any login information. Let's continue looking at the other directories we got from gobuster 
+Not really helpful to us since we still don't have any login information and default credentials didn't work. Let's continue looking at the other directories we got from gobuster 
 I came across the directory /js which had an interesting file "api.js"<br />
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT10.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT11.png?raw=true)<br />
+This file was also in the source of the login page partners.html <br />
 
+Let's break down the api.js file to make it easier to understand.<br />
+
+We see a function "getAPIURL()" which is defined to return the hostname and port of the API URL as a template string. 
+```Javascript
+    function getAPIURL() {
+	return `${window.location.hostname}:8081`
+    }
+```
 
 
 
