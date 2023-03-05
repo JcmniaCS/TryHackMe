@@ -156,6 +156,9 @@ Third, we'll get the target to execute our remote shell<br />
 Success! We now have a shell, we can see from the output that we are user ID 33 www-data<br />
 Before trying to escalate our privileges let's have a look around on the current user to see if we can find the user flag. 
 On most CTF's I've found they are usually inside of the home folders. Let's go have a look.<br />
+```cd /home/```
+```ls````
+```cat user.txt```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT19.png?raw=true)<br />
 Success! We found the user flag. Let's get to work and see if we can escalate our privileges.
 Question 4:<br />
