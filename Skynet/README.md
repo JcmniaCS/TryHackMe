@@ -3,10 +3,10 @@
 
 <p>Skynet is a vulnerable terminator themed linux machine on TryHackMe.com<br />
 <br />
-<i>THM Difficulty: Easy <br />
-My Difficulty: <br />
-Completion Time: </i><br />
-</p>
+<i>URL: https://tryhackme.com/room/skynet<br />
+THM Difficulty: Medium<br />
+My Difficulty: Easy<br />
+</i></p>
 
 ## Enumeration
 
