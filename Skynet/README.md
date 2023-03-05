@@ -161,7 +161,7 @@ On most CTF's I've found they are usually inside of the home folders. Let's go h
 SCREENSHOT19<br />
 Success! We found the user flag. Let's get to work and see if we can escalate our privileges.</p>
 Question 4:<br />
-***What is the user flag?*** 7ce5c2109a40f958099283600a9ae807
+**What is the user flag?** 7ce5c2109a40f958099283600a9ae807
 
 ## Privilege Escalation
 
@@ -186,7 +186,7 @@ cd /root<br />
 cat root.txt<br />
 SCREENSHOT23<br /></p>
 Question 5:<br />
-***What is the root flag?*** 7ce5c2109a40f958099283600a9ae807<br />
+**What is the root flag?** 7ce5c2109a40f958099283600a9ae807<br />
 
-## Farewell, I hope you all enjoyed this write-up!
+### Farewell, I hope you all enjoyed this write-up!
 
