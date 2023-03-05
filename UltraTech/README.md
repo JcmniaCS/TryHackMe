@@ -112,7 +112,9 @@ const url = `http://${getAPIURL()}/ping?ip=${window.location.hostname}`
 - It looks like it's performing a ping to confirm if the API is down/up so the user can login.<br />
 
 Let's take a look at the following URL:<br />
-```shellhttp://10.10.39.165:8081/ping?ip=10.10.39.165```<br />
+```shell
+http://10.10.39.165:8081/ping?ip=10.10.39.165```
+<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT12.png?raw=true)<br />
 Very interesting! This looks like the same output from a ping request sent from a Linux machine... Maybe vulnerable to command injection?<br />
 
