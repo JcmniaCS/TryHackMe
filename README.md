@@ -1,6 +1,7 @@
 # TryHackMe
 Welcome fellow security enthusiasts,<br />
-This is where I post all of my write-ups for TryHackMe's CTF challenges. Below you will find a list of them categorized by difficulty, I hope they help you on your journey.<br />
+
+This is where I post all of my write-ups for TryHackMe's CTF challenges. Please note that this is an ongoing list and more will be added frequently. Below you will find a list of the boxes categorized by difficulty.<br />
 
 
 
