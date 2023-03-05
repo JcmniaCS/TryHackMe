@@ -107,13 +107,42 @@ We know that the API URL is the Node.js service http://10.10.39.165:8081<br />
 We can see that it's sending a HTTP GET request<br />
 It looks like it's performing a ping to confirm if the API is down/up so the user can login. Let's take a look at the following URL:<br />
 http://10.10.39.165:8081/ping?ip=10.10.39.165<br />
-Very interesting! This looks like the same output from a ping request sent from a Linux machine...<br />
+Very interesting! This looks like the same output from a ping request sent from a Linux machine... Maybe vulnerable to command injection?<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT12.png?raw=true)<br />
+
+## Exploiting Command Injection
 What if we changed the request to something else? Let's see what happens when we try to add a list command at the end<br />
 http://10.10.39.165:8081/ping?ip=10.10.39.165;ls<br />
-Hmm nothing happened, let's try that again<br />
+Hm, nothing happened. Let's try that again<br />
 http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls` <br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT13.png?raw=true)<br />
+Success! We were able to list a file "utech.db.sqlite" before we move on, let's have a look at the database file.<br />
+http://10.10.39.165:8081/ping?ip=10.10.39.165;`cat utech.db.sqlite`<br />
+Interesting... We've found 2 users along with their password hashes! r00t and admin<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT15.png?raw=true)<br />
+Let's try to crack the hashes and see what we can do with them! We know the hashes are MD5.<br />
+We've found the password now let's try to login...<br />
 
+## SSH Service Recon
+We're going to try logging into the SSH service we found earlier.<br />
+```ssh r00t@10.10.39.165```<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT14.png?raw=true)<br />
+Success! Let's try going into /root and getting the last flag!
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT16.png?raw=true)<br />
+I thought we were already root, I guess not. I try the id command which provides a general overview of the users privilege level and group memberships.<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT17.png?raw=true)<br />
+Interesting, we're apart of the docker group. I may of not noticed this for about 30 minutes... Maybe we can exploit this?<br />
+
+## Privilege Escalation
+
+Let's try to exploit docker to get root privileges, I first checked https://gtfobins.github.io/gtfobins/docker/<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT18.png?raw=true)<br />
+Awesome! Let's give the command a try and see if we get root privileges. We first need to change from alpine to bash.<br />
+```docker run -v /:/mnt --rm -it bash chroot /mnt sh```<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT19.png?raw=true)<br />
+Success! We're now root, let's get the last flag. We need to find the root users SSH key.<br />
+```cd /root/.ssh && cat id_rsa```<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT20.png?raw=true)<br />
 
 ## Questions & Answers
 
@@ -133,16 +162,15 @@ Question 2:<br />
 **The software using the port 8081 is a REST api, how many of its routes are used by the web application? ** 2<br />
 
 Question 2:<br />
-**There is a database lying around, what is the filename?** <br />
+**There is a database lying around, what is the filename?** utech.db.sqlite<br />
 
 Question 2:<br />
-**What is the first user's password hash?** <br />
+**What is the first user's password hash?** a0c52799563c7c7b76c1e7543a32<br />
 
 Question 2:<br />
-**What is the password associated with this hash?** <br />
+**What is the password associated with this hash?** n100906<br />
 
 Question 2:<br />
-**What are the first 9 characters of the root users private SSH key?** <br />
+**What are the first 9 characters of the root users private SSH key?** MIIEogIBA<br />
 
 ### Farewell, I hope you all enjoyed this write-up!
-
