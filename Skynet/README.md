@@ -13,8 +13,8 @@ My Difficulty: Easy<br />
 For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
 ```bat
 rustscan -a 10.10.90.192
-test s
-```<br />
+```
+
 SCREENSHOT<br />
 Now we know which ports are open, I run an Nmap scan with the flag -sV to find the service versions on the open ports.<br />
 nmap -sV -p22,80,110,139,143,445 10.10.90.192<br />
