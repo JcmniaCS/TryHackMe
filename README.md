@@ -1,11 +1,11 @@
 # TryHackMe
 Welcome fellow security enthusiasts,<br />
 
-This is where I post all of my write-ups for TryHackMe's CTF challenges. Please note that this is an ongoing list and more will be added frequently. Below you will find a list of the boxes categorized by difficulty.<br />
+This is where I post all of my write-ups for TryHackMe's CTF challenges. This is an on-going list and more will be added frequently. Below you will find a list of the boxes categorized by difficulty.<br />
 
 
 
-<i><b>These write-ups contain the answers to the challenges at the bottom of the specified boxes page. Try not to look at them if you're stuck, enumerate more go back and trace your steps to see if you missed anything.</b></i><br />
+<i><b>These write-ups contain the answers to the challenges at the bottom of the specified boxes page. Try not to look at them everytime you run into a problem, do some research first to see if you can solve the problem or go back and trace your steps to see if you have missed anything.</b></i><br />
 
 ## Easy
 
