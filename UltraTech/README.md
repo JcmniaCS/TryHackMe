@@ -39,7 +39,9 @@ We've moved onto Node.js recon, let's head over to the website:<br />
 ```shell
 http://10.10.39.165:8081
 ```
-gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:8081/<br />
+```shell
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:8081/
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT5.png?raw=true)<br />
 Interesting... Let's check out the directory /auth<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT6.png?raw=true)<br />
