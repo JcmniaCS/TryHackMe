@@ -29,7 +29,10 @@ No luck there, let's move on for now.<br />
 
 ## Node.js Service Recon
 
-We've moved onto Node.js recon, let's head over to the website http://10.10.39.165:8081 <br />
+We've moved onto Node.js recon, let's head over to the website:<br />
+```shell
+http://10.10.39.165:8081
+```
 gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:8081/<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT5.png?raw=true)<br />
 Interesting... Let's check out the directory /auth<br />
@@ -43,13 +46,20 @@ gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u 
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT4.png?raw=true)<br />
 Nothing really of interest, there's an e-mail address on the contact of the bottom of the webpage, we'll save it for now.<br />
 
-Let's see if they have a robots.txt file at http://10.10.39.165:31331/robots.txt<br />
+Let's see if they have a robots.txt file at:<br />
+```shell
+http://10.10.39.165:31331/robots.txt
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT7.png?raw=true)<br />
-Interesting... Let's have a look at the sitemap at http://10.10.39.165:31331/utech_sitemap.txt<br />
-
+Interesting... Let's have a look at the sitemap at:<br />
+````shell
+http://10.10.39.165:31331/utech_sitemap.txt
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT8.png?raw=true)<br />
-After having a look at all of the pages we find a login page at http://10.10.39.165:31331/partners.html<br />
-
+After having a look at all of the pages we find a login page at:<br />
+```shell
+http://10.10.39.165:31331/partners.html
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT9.png?raw=true)<br />
 Not really helpful to us since we still don't have any login information and default credentials didn't work. Let's continue looking at the other directories we got from gobuster. <br />
 
