@@ -171,7 +171,7 @@ Question 4:<br />
 ## Privilege Escalation
 
 Since the shell we got isn't very stable, let's use Python to help that.<br />
-```python -c 'import pty;pty.spawn("/bin/bash")'<br />```
+```python -c 'import pty;pty.spawn("/bin/bash")'```<br />
 Alright! Let's see what we can do about escalating our privileges, I'll start first by checking what kernel they are using.<br />
 ```uname -a```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT20.png?raw=true)<br />
