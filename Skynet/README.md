@@ -50,17 +50,17 @@ Success! We were able to connect to the anonymous share without a password. Now 
 SCREENSHOT6<br />
 We can see we have a file named "attention.txt" and a directory named "logs" let's get the file attention.txt and then
 change to the "logs directory" and list the files<br />
-```get attention.txt<br />
-cd logs<br />
-ls```<br />
+```get attention.txt```<br />
+```cd logs```<br />
+```ls```<br />
 SCREENSHOT7<br />
 We can see we have another 3 files inside of the "logs" directory, log1.txt, log2.txt, log3.txt. 
 Let's get the files and check out our other share.<br />
-```get log1.txt<br />
-get log2.txt<br />
-get log3.txt<br />
-exit<br />
-smbclient \\\\10.10.90.192\\milesdyson```<br />
+```get log1.txt```<br />
+```get log2.txt```<br />
+```get log3.txt```<br />
+```exit```<br />
+```smbclient \\\\10.10.90.192\\milesdyson```<br />
 We receive the error "NT_STATUS_ACCESS_DENIED" when trying to connect to the share milesdyson with an empty password for root. 
 Let's try reading the files we got from the "anonymous" share. "attention.txt" "log1.txt" "log2.txt" "log3.txt"<br />
 ```cat attention.txt```<br />
