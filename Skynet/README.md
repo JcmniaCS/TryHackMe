@@ -109,11 +109,14 @@ There's an interesting file amongst all of the random files, let's download and 
 ```cat important.txt```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT13.png?raw=true)<br />
 Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!<br />
+
 Question 2:<br />
 **What is the hidden directory?** /45kra24zxs28v3yd <br />
+
 Question 3:<br />
 **What is the vulnerability called when you can include a remote file for malicious purposes?** Remote File Inclusion <br />
 The answer was Remote File Inclusion but we found an exploit for Remote File Execution... Maybe more than one exploit?<br />
+
 Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
 The exploit I will be using for this can be located here: https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
 Firstly I download the exploit and save it as exploit.sh in my /root directory (THM AttackBox Default Terminal Directory). We need to change the permissions of the file BEFORE executing it.<br />
