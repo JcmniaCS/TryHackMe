@@ -92,6 +92,7 @@ Before we exploit the vulnerability, let's have a look around and see if we can 
 There is just what looks like random mumble jumble in the first and third e-mail, let's ignore those for now. <br />
 We see inside the second e-mail what looks like binary code, let's decode it and see what it means... Damn... More mumble jumble.<br />
 Inside the top e-mail we see a password reset for Samba, maybe we can access the milesdyson share with this password? ")s{A&2Z=F^n_E.B`" <br />
+
 Let's try connecting to the share... <br />
 ```smbclient \\\\10.10.90.192\\milesdyson -U milesdyson```<br />
 Success! We managed to login to the SMB server, let's see what files are available on the share.<br />
