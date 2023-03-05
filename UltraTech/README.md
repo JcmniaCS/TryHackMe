@@ -58,7 +58,8 @@ Let's break down the api.js file to make it easier to understand.<br />
     function getAPIURL() {
 	return `${window.location.hostname}:8081`
     }
-```<br />
+```
+<br />
 "getAPIURL()" which is defined to return the hostname(10.10.39.165) and port(8081) of the API URL as a template string. <br />
 
 ```Javascript
