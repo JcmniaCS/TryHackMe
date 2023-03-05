@@ -1,12 +1,12 @@
 
 # Skynet CTF Walkthrough
 
-<p>Skynet is a vulnerable terminator themed linux machine on TryHackMe.com<br />
+Skynet is a vulnerable terminator themed linux machine on TryHackMe.com<br />
 <br />
 <i>URL: https://tryhackme.com/room/skynet<br />
 THM Difficulty: Medium<br />
 My Difficulty: Easy<br />
-</i></p>
+</i>
 
 ## Enumeration
 
@@ -19,11 +19,11 @@ SCREENSHOT2<br />
 
 ## Finding Vulnerabilities
 
-<p>We have found a few services that could be interesting... Let's try to find some vulnerabilities in the services.</p>
+We have found a few services that could be interesting... Let's try to find some vulnerabilities in the services.
 
 ### HTTP Service
 
-<p>I saw they have port 80 open running Apache httpd 2.4.18. 
+I saw they have port 80 open running Apache httpd 2.4.18. 
 I open up my browser and head over to the website http://10.10.90.192/<br />
 SCREENSHOT3<br />
 It appears to be some kind of search engine but none of the search features are working, I decide to start up gobuster
@@ -34,11 +34,11 @@ After trying to access each directory, I receive a forbidden page from every dir
 Checking out this page I see a version 1.4.23, I do a little research to find out if this version is vulnerable...
 Success! I can see from a simple google search that this version of squirrelmail is vulnerable to Remote Code Execution (RCE) 
 However, we have a problem... After reading the exploit I realize you need to be an authenticated user... 
-Let's go back to our Nmap scan results and try looking at one of the other interesting services for now.<br /></p>
+Let's go back to our Nmap scan results and try looking at one of the other interesting services for now.<br />
 
 ### Samba Service
 
-<p>We can see in our Nmap scan that they have ports 139 and 445 open for a Samba. Let's try to enumerate the shares 
+We can see in our Nmap scan that they have ports 139 and 445 open for a Samba. Let's try to enumerate the shares 
 and see if there's anything we can access.<br />
 smbclient -L 10.10.90.192<br />
 SCREENSHOT5<br />
@@ -69,23 +69,23 @@ Apparently a recent malfunction has caused passwords to be changed, we also get 
 cat log1.txt<br />
 SCREENSHOT9<br />
 log1.txt looks like it's full of passwords or usernames. Maybe we could try the possible username "Miles" or "MilesDyson" with this password list? 
-I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br /></p>
+I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br />
 
-<p>Let's try bruteforcing the user "milesdyson" with the passwords we got from "log1.txt" on the squirrelmail service. 
+Let's try bruteforcing the user "milesdyson" with the passwords we got from "log1.txt" on the squirrelmail service. 
 We know there's a vulnerability in the SquirrelMail service with an available exploit. To do this we will use hydra and burp suite.<br />
 hydra -l milesdyson -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"<br />
-Success! We have successfuly logged in with the password "cyborg007haloterminator"<br /> </p>
+Success! We have successfuly logged in with the password "cyborg007haloterminator"<br /> 
 Question 1:<br />
 **What is Miles password for his emails?** cyborg007haloterminator <br />
 
 ## Exploiting Vulnerabilities
 
-<p>Now that we have a login for the SquirrelMail server milesdyson:cyborg007haloterminator, we know about a vulnerability in this version(1.4.23) and we know about an exploit for this service(CVE-2017-7692) 
-Let's get to it!</p>
+Now that we have a login for the SquirrelMail server milesdyson:cyborg007haloterminator, we know about a vulnerability in this version(1.4.23) and we know about an exploit for this service(CVE-2017-7692) 
+Let's get to it!
 
 ### Exploiting SquirrelMail
 
-<p>Firstly, let's login with the aquired username:password. We are greeted with the screen below.<br />
+Firstly, let's login with the aquired username:password. We are greeted with the screen below.<br />
 SCREENSHOT10<br />
 Before we exploit the vulnerability, let's have a look around and see if we can find anything interesting...<br />
 The first thing that comes to my attention is the e-mails, let's have a look at each e-mail and see what's inside.<br />
@@ -109,13 +109,13 @@ get important.txt<br />
 exit<br />
 cat important.txt<br />
 SCREENSHOT13<br />
-Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!</p>
+Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!
 Question 2:<br />
 **What is the hidden directory?** /45kra24zxs28v3yd <br />
 Question 3:<br />
 **What is the vulnerability called when you can include a remote file for malicious purposes?** Remote File Inclusion <br />
 The answer was Remote File Inclusion but we found an exploit for Remote File Execution... Maybe more than one exploit?<br />
-<p>Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
+Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
 The exploit I will be using for this can be located here: https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
 Firstly I download the exploit and save it as exploit.sh in my /root directory (THM AttackBox Default Terminal Directory). We need to change the permissions of the file BEFORE executing it.<br />
 chmod +x exploit.sh<br />
@@ -123,28 +123,28 @@ chmod +x exploit.sh<br />
 Enter the username and password for the squirrelmail service.<br />
 SCREENSHOT14<br />
 Something went wrong... We'll come back to this exploit later and see if we can figure out what went wrong. 
-Let's try going back to the secret directory we received earlier...<br /></p>
+Let's try going back to the secret directory we received earlier...<br />
 
 ## Back to enumerating
 
-<p>Our previous exploit failed but we haven't enumerated the hidden directory we found, let's try finding more valuable information.</p>
+Our previous exploit failed but we haven't enumerated the hidden directory we found, let's try finding more valuable information.
 
 ### Enumerating Hidden Directory
 
-<p>Let's have a look at the hidden directory and see if there's anything valuable! We'll use gobuster again.<br />
+Let's have a look at the hidden directory and see if there's anything valuable! We'll use gobuster again.<br />
 gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/45kra24zxs28v3yd/<br />
 SCREENSHOT15<br />
 We discovered a directory called /administrator/ let's have a look... It appears to be a login for CuppaCMS...<br />
 SCREENSHOT16<br />
 Maybe this is vulnerable to the Remote File Inclusion question we answered earlier? Let's do some research....<br />
 Bingo! I found an exploit in the software for RFI! What's even better is that you don't have to be an authenticated user<br />
-For more information about the exploit: https://www.exploit-db.com/exploits/25971<br /></p>
+For more information about the exploit: https://www.exploit-db.com/exploits/25971<br />
 
 ## Back to exploiting
 
 ### Exploiting CuppaCMS
 
-<p>After reading the exploit page I know which page has the vulnerability and I try to exploit it.<br />
+After reading the exploit page I know which page has the vulnerability and I try to exploit it.<br />
 http://10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd<br />
 SCREENSHOT17<br />
 My request was successful! Now let's create a reverse shell and try to escalate our privileges! <br />
@@ -159,13 +159,13 @@ Success! We now have a shell, we can see from the output that we are user ID 33 
 Before trying to escalate our privileges let's have a look around on the current user to see if we can find the user flag. 
 On most CTF's I've found they are usually inside of the home folders. Let's go have a look.<br />
 SCREENSHOT19<br />
-Success! We found the user flag. Let's get to work and see if we can escalate our privileges.</p>
+Success! We found the user flag. Let's get to work and see if we can escalate our privileges.
 Question 4:<br />
 **What is the user flag?** 7ce5c2109a40f958099283600a9ae807
 
 ## Privilege Escalation
 
-<p>Since the shell we got isn't very stable, let's use Python to help that.<br />
+Since the shell we got isn't very stable, let's use Python to help that.<br />
 python -c 'import pty;pty.spawn("/bin/bash")'<br />
 SCREENSHOT20<br />
 Alright! Let's see what we can do about escalating our privileges, I'll start first by checking what kernel they are using.<br />
@@ -184,7 +184,7 @@ SCREENSHOT22<br />
 SUCCESS! We have root, all we have to do now is find the root flag and we're done!<br />
 cd /root<br />
 cat root.txt<br />
-SCREENSHOT23<br /></p>
+SCREENSHOT23<br />
 Question 5:<br />
 **What is the root flag?** 7ce5c2109a40f958099283600a9ae807<br />
 
