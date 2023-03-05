@@ -13,17 +13,23 @@ AttackBox IP: 10.10.157.51<br />
 # Recon
 
 For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
-```rustscan -a 10.10.39.165```<br />
+```shell
+rustscan -a 10.10.39.165
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT1.png?raw=true)<br />
 Now we know which ports are open, I run an Nmap scan with the flags -sV and -sC to find the service versions and to run default scripts on the open ports.<br />
-```nmap -sV -sC -p21,22,8081,31331 10.10.39.165```<br />
+```shell
+nmap -sV -sC -p21,22,8081,31331 10.10.39.165
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT2.png?raw=true)<br />
 We see 4 ports open running different services! Let's have a look into some of the services and see what we can find.<br />
 
 ## FTP Service Recon
 
 We're going to start with FTP, let's try to connect via FTP with the anonymous account <br />
-```ftp 10.10.39.165```<br />
+```shell
+ftp 10.10.39.165
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT3.png?raw=true)<br />
 No luck there, let's move on for now.<br />
 
@@ -46,12 +52,12 @@ gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u 
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT4.png?raw=true)<br />
 Nothing really of interest, there's an e-mail address on the contact of the bottom of the webpage, we'll save it for now.<br />
 
-Let's see if they have a robots.txt file at:<br />
+Let's see if they have a robots.txt file using the address below<br />
 ```shell
 http://10.10.39.165:31331/robots.txt
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT7.png?raw=true)<br />
-Interesting... Let's have a look at the sitemap at:<br />
+Interesting... Let's have a look at the sitemap below<br />
 ````shell
 http://10.10.39.165:31331/utech_sitemap.txt
 ```
