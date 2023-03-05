@@ -110,6 +110,7 @@ exit<br />
 cat important.txt<br />
 SCREENSHOT13<br />
 Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!</p>
+Question 2:<br />
 **What is the hidden directory?** /45kra24zxs28v3yd <br />
 
 
