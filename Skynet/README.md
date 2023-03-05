@@ -6,6 +6,8 @@ Skynet is a vulnerable terminator themed linux machine on TryHackMe.com<br />
 <i>URL: https://tryhackme.com/room/skynet<br />
 THM Difficulty: Medium<br />
 My Difficulty: Easy<br />
+Target IP: 10.10.90.192<br />
+AttackBox IP: 10.10.113.195<br />
 </i>
 
 ## Enumeration
