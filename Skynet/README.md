@@ -168,10 +168,9 @@ Question 4:<br />
 
 Since the shell we got isn't very stable, let's use Python to help that.<br />
 ```python -c 'import pty;pty.spawn("/bin/bash")'<br />```
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT20.png?raw=true)<br />
 Alright! Let's see what we can do about escalating our privileges, I'll start first by checking what kernel they are using.<br />
 ```uname -a```<br />
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT21.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT20.png?raw=true)<br />
 We can see the kernel version is 4.8.0-58-generic, let's have a look for exploits in that kernel version. 
 Good news! We can see on exploit-db with a little research that it is vulnerable - https://www.exploit-db.com/exploits/43418<br />
 Let's download the exploit on the target machine, we'll have to download it on our attacker machine first then serve it through 
@@ -181,11 +180,11 @@ Once you have downloaded the exploit and saved it in the same directory as your 
 ```chmod +x priv.c```<br />
 ```gcc priv.c -o priv```<br />
 ```./priv```<br />
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT22.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT21.png?raw=true)<br />
 SUCCESS! We have root, all we have to do now is find the root flag and we're done!<br />
 ```cd /root```<br />
 ```cat root.txt```<br />
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT1.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT22.png?raw=true)<br />
 Question 5:<br />
 **What is the root flag?** 7ce5c2109a40f958099283600a9ae807<br />
 
