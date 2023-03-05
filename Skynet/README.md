@@ -94,6 +94,22 @@ We see inside the bottom e-mail what looks like ????, let's decode it and see wh
 We see inside the second e-mail what looks like binary code, let's decode it and see what it means...<br />
 After converting the binary we see the string "balls have zero to me to me to me to me to me to me to me to me to"<br /><br />
 
-Inside the top e-mail we see a password reset for Samba, maybe we can access the milesdyson share with this password?<br />
+Inside the top e-mail we see a password reset for Samba, maybe we can access the milesdyson share with this password? ")s{A&2Z=F^n_E.B`" <br />
+Let's try connecting to the share... <br />
+smbclient \\\\10.10.90.192\\milesdyson -U milesdyson<br />
+Success! We managed to login to the SMB server, let's see what files are available on the share.<br />
+ls<br />
+SCREENSHOT11<br />
+Nothing really stands out to us here except from the directory "notes" Let's change our directory and list what's inside.<br />
+cd notes<br />
+ls<br />
+SCREENSHOT12<br />
+There's an interesting file amongst all of the random files, let's download and take a look at "important.txt"<br />
+get important.txt<br />
+exit<br />
+cat important.txt<br />
+SCREENSHOT13<br />
+Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!</p>
+**What is the hidden directory?** /45kra24zxs28v3yd <br />
 
-</p>
+
