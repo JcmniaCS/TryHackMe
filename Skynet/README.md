@@ -65,10 +65,10 @@ We receive the error "NT_STATUS_ACCESS_DENIED" when trying to connect to the sha
 Let's try reading the files we got from the "anonymous" share. "attention.txt" "log1.txt" "log2.txt" "log3.txt"<br />
 cat attention.txt<br />
 SCREENSHOT8<br />
-Apparently a recent malfunction has caused passwords to be changed, we also get the name "Miles Dyson" A possible username?< br/>
+Apparently a recent malfunction has caused passwords to be changed, we also get the name "Miles Dyson" A possible username?<br />
 cat log1.txt<br />
 SCREENSHOT9<br />
-log1.txt looks like it's full of passwords or usernames. Maybe we could try the possible username "miles" or "milesdyson" with this password list?< br/>
+log1.txt looks like it's full of passwords or usernames. Maybe we could try the possible username "miles" or "milesdyson" with this password list?<br />
 I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br />
 
 
