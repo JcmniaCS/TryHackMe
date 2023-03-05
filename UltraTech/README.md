@@ -27,16 +27,34 @@ We're going to start with FTP, let's try to connect via FTP with the anonymous a
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT3.png?raw=true)<br />
 No luck there, let's move on for now.<br />
 
+## Node.js Service Recon
+
+We've moved onto Node.js recon, let's head over to the website http://10.10.39.165:8081 <br />
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:8081/<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT5.png?raw=true)<br />
+Interesting... Let's check out the directory /auth<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT6.png?raw=true)<br />
+This looks interesting... But we don't have any login details... Let's move on for now.<br />
+
 ## HTTP Service Recon
 
-We've moved onto HTTP, let's head over to the website http://10.10.39.165:31331 <br />
-Nothing really of notice, there's an e-mail address on the contact form of the bottom of the webpage, we'll save it for now. 
-Let's try to bruteforce some directories with gobuster<br />
+We're going to do the same steps as we did for the Node.js service recon, let's try to bruteforce some directories with gobuster<br />
 gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:31331/<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT4.png?raw=true)<br />
+Nothing really of interest, there's an e-mail address on the contact of the bottom of the webpage, we'll save it for now.<br />
+Let's see if they have a robots.txt file at http://10.10.39.165:31331/robots.txt
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT7.png?raw=true)<br />
+Interesting... Let's have a look at the sitemap at http://10.10.39.165:31331/utech_sitemap.txt<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT8.png?raw=true)<br />
+After having a look at all of the pages we find a login page at http://10.10.39.165:31331/partners.html<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT9.png?raw=true)<br />
+Not really helpful to us since we still don't have any login information. Let's continue looking at the other directories we got from gobuster 
+I came across the directory /js which had an interesting file "api.js"<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT10.png?raw=true)<br />
 
-Nothing really of interest, let's try something else.<br />
 
-## 
+
+
 
 
 ## Questions & Answers
