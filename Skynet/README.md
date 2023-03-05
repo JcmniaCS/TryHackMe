@@ -110,8 +110,7 @@ There's an interesting file amongst all of the random files, let's download and 
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT13.png?raw=true)<br />
 Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!<br />
 
-Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
-The exploit I will be using for this can be located here: https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
+Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692 - https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
 Firstly I download the exploit and save it as exploit.sh in my /root directory (THM AttackBox Default Terminal Directory). We need to change the permissions of the file BEFORE executing it.<br />
 ```chmod +x exploit.sh```<br />
 ```./exploit.sh http://10.10.90.192/squirrelmail```<br />
