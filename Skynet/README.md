@@ -99,6 +99,7 @@ Let's try connecting to the share... <br />
 ```smbclient \\\\10.10.90.192\\milesdyson -U milesdyson```<br />
 Success! We managed to login to the SMB server, let's see what files are available on the share.<br />
 ```ls```<br />
+
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT11.png?raw=true)<br />
 Nothing really stands out to us here except from the directory "notes" Let's change our directory and list what's inside.<br />
 ```cd notes```<br />
