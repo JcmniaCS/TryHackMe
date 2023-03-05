@@ -46,10 +46,12 @@ Nothing really of interest, there's an e-mail address on the contact of the bott
 Let's see if they have a robots.txt file at http://10.10.39.165:31331/robots.txt<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT7.png?raw=true)<br />
 Interesting... Let's have a look at the sitemap at http://10.10.39.165:31331/utech_sitemap.txt<br />
+
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT8.png?raw=true)<br />
 After having a look at all of the pages we find a login page at http://10.10.39.165:31331/partners.html<br />
+
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT9.png?raw=true)<br />
-Not really helpful to us since we still don't have any login information and default credentials didn't work. Let's continue looking at the other directories we got from gobuster 
+Not really helpful to us since we still don't have any login information and default credentials didn't work. Let's continue looking at the other directories we got from gobuster. <br />
 I came across the directory /js which had an interesting file "api.js"<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT11.png?raw=true)<br />
 This file was also in the source of the login page partners.html <br />
