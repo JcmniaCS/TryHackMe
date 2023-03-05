@@ -178,9 +178,14 @@ Interesting, we're apart of the docker group. Maybe we can exploit this?<br />
 
 ## Privilege Escalation
 
-Let's try to exploit docker to get root privileges, I first checked https://gtfobins.github.io/gtfobins/docker/<br />
+Let's try to exploit docker to get root privileges, I first checked the website below<br />
+```shell
+https://gtfobins.github.io/gtfobins/docker/
+```
+
+I will attach a screenshot below of gtfobins and the command we need to input.
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT18.png?raw=true)<br />
-Awesome! Let's give the command a try and see if we get root privileges. We first need to change from alpine to bash.<br />
+Awesome! Let's give the command a try and see if we get root privileges. We will first need to change the alpine to bash.<br />
 ```shell
 docker run -v /:/mnt --rm -it bash chroot /mnt sh
 ```
@@ -199,25 +204,25 @@ Question 1:<br />
 Question 2:<br />
 **Which other non-standard port is used?** 31331<br />
 
-Question 2:<br />
+Question 3:<br />
 **Which software is using this port?** Apache<br />
 
-Question 2:<br />
+Question 4:<br />
 **Which GNU/Linux distribution seems to be used?** Ubuntu<br />
 
-Question 2:<br />
-**The software using the port 8081 is a REST api, how many of its routes are used by the web application? ** 2<br />
+Question 5:<br />
+**The software using the port 8081 is a REST api, how many of its routes are used by the web application?** 2<br />
 
-Question 2:<br />
+Question 6:<br />
 **There is a database lying around, what is the filename?** utech.db.sqlite<br />
 
-Question 2:<br />
+Question 7:<br />
 **What is the first user's password hash?** a0c52799563c7c7b76c1e7543a32<br />
 
-Question 2:<br />
+Question 8:<br />
 **What is the password associated with this hash?** n100906<br />
 
-Question 2:<br />
+Question 9:<br />
 **What are the first 9 characters of the root users private SSH key?** MIIEogIBA<br />
 
 ### Farewell, I hope you all enjoyed this write-up!
