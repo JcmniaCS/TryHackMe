@@ -1,6 +1,6 @@
 # TryHackMe
-Write-ups for TryHackMe CTF challenges
-More will come over time, just getting started.
+Write-ups for TryHackMe CTF challenges<br />
+<i>More will come over time, just getting started.</i>
 
 ## Easy
 
