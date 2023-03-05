@@ -16,14 +16,14 @@ For our first command we will use rustscan, rustscan will scan all of the ports 
 Now we know which ports are open, I run an Nmap scan with the flag -sV to find the service versions on the open ports.<br />
 ```nmap -sV -p22,80,110,139,143,445 10.10.90.192```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT2.png?raw=true)<br />
+We have found a few services that could be interesting... Let's try to find some vulnerabilities in the services.
 
 ## Finding Vulnerabilities
 
-We have found a few services that could be interesting... Let's try to find some vulnerabilities in the services.
 
 ### HTTP Service
 
-I saw they have port 80 open running Apache httpd 2.4.18. 
+I saw the target has port 80 open running Apache httpd 2.4.18. 
 I open up my browser and head over to the website http://10.10.90.192/<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT3.png?raw=true)<br />
 It appears to be some kind of search engine but none of the search features are working, I decide to start up gobuster
