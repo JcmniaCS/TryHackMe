@@ -45,7 +45,7 @@ SCREENSHOT5<br />
 We were able to list the shares on the server without a password for root, we can see we have access to the shares "anonymous" and "milesdyson".
 Let's try to connect to them now and see if they have any files of interest!
 smbclient \\\\10.10.90.192\\anonymous<br />
-Success! We were able to connect to the anonymous share. Now we need to list the files avaialable on the share. <br />
+Success! We were able to connect to the anonymous share without a password. Now we need to list the files avaialable on the share. <br />
 ls<br />
 SCREENSHOT6<br />
 We can see we have a file named "attention.txt" and a directory named "logs" let's get the file attention.txt and then
@@ -53,6 +53,25 @@ change to the "logs directory" and list the files<br />
 get attention.txt<br />
 cd logs<br />
 ls<br />
+SCREENSHOT7<br />
+We can see we have another 3 files inside of the "logs" directory, log1.txt, log2.txt, log3.txt. 
+Let's get the files and check out our other share.<br />
+get log1.txt<br />
+get log2.txt<br />
+get log3.txt<br />
+exit<br />
+smbclient \\\\10.10.90.192\\milesdyson<br />
+We receive the error "NT_STATUS_ACCESS_DENIED" when trying to connect to the share milesdyson with an empty password for root. 
+Let's try reading the files we got from the "anonymous" share. "attention.txt" "log1.txt" "log2.txt" "log3.txt"<br />
+cat attention.txt<br />
+SCREENSHOT8<br />
+Apparently a recent malfunction has caused passwords to be changed, we also get the name "Miles Dyson" A possible username?< br/>
+cat log1.txt<br />
+SCREENSHOT9<br />
+log1.txt looks like it's full of passwords or usernames. Maybe we could try the possible username "miles" or "milesdyson" with this password list?< br/>
+I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br />
+
+
 
 
 
