@@ -170,9 +170,11 @@ ssh r00t@10.10.39.165
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT14.png?raw=true)<br />
 Success! Let's try going into /root and getting the last flag!
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT16.png?raw=true)<br />
-I thought we were already root, I guess not. I try the id command which provides a general overview of the users privilege level and group memberships.<br />
+I thought we were already root, I guess not.<br />
+
+Let's try the "id" command which provides a general overview of the users privilege level and group memberships.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT17.png?raw=true)<br />
-Interesting, we're apart of the docker group. I may of not noticed this for about 30 minutes... Maybe we can exploit this?<br />
+Interesting, we're apart of the docker group. Maybe we can exploit this?<br />
 
 ## Privilege Escalation
 
