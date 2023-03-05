@@ -8,5 +8,6 @@ Ignite - https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/README.md<br />
 
 ## Medium
 Skynet - https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/README.md<br />
+UltraTech - https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/README.md<br />
 
 ## Hard

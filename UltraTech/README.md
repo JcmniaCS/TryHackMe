@@ -4,10 +4,10 @@
 UltraTech is a vulnerable server on TryHackMe.com<br />
 <br />
 <i>URL: https://tryhackme.com/room/ultratech<br />
-THM Difficulty: <br />
+THM Difficulty: Medium<br />
 My Difficulty: <br />
 Target IP: <br />
-AttackUltraTech IP: <br />
+AttackUltraTech IP: 10.10.157.51<br />
 </i>
 
 # Recon
@@ -27,10 +27,31 @@ We have only found one service, this CTF may just be a webservice. Let's try to 
 ## Questions & Answers
 
 Question 1:<br />
-**What is the user flag?** <br />
+**Which software is using the port 8081** <br />
 
 Question 2:<br />
-**What is the root flag?** <br />
+**Which other non-standard port is used?** <br />
+
+Question 2:<br />
+**Which software is using this port?** <br />
+
+Question 2:<br />
+**Which GNU/Linux distribution seems to be used?** <br />
+
+Question 2:<br />
+**The software using the port 8081 is a REST api, how many of its routes are used by the web application? ** <br />
+
+Question 2:<br />
+**There is a database lying around, what is the filename?** <br />
+
+Question 2:<br />
+**What is the first user's password hash?** <br />
+
+Question 2:<br />
+**What is the password associated with this hash?** <br />
+
+Question 2:<br />
+**What are the first 9 characters of the root users private SSH key?** <br />
 
 ### Farewell, I hope you all enjoyed this write-up!
 
