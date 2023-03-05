@@ -89,10 +89,10 @@ Let's get to it!</p>
 SCREENSHOT10<br />
 Before we exploit the vulnerability, let's have a look around and see if we can find anything interesting...<br />
 The first thing that comes to my attention is the e-mails, let's have a look at each e-mail and see what's inside.<br />
-We see inside the bottom e-mail what looks like ????, let's decode it and see what it means...
+We see inside the bottom e-mail what looks like ????, let's decode it and see what it means...<br /><br />
 
 We see inside the second e-mail what looks like binary code, let's decode it and see what it means...<br />
-After converting the binary we see the string "balls have zero to me to me to me to me to me to me to me to me to" 
+After converting the binary we see the string "balls have zero to me to me to me to me to me to me to me to me to"<br /><br />
 
 Inside the top e-mail we see a password reset for Samba, maybe we can access the milesdyson share with this password?<br />
 
