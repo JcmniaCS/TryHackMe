@@ -58,15 +58,14 @@ This file was also in the source of the login page partners.html <br />
 
 Let's break down the api.js file to make it easier to understand.<br />
 ```Javascript
+(function() {
+    console.warn('Debugging ::');
+
     function getAPIURL() {
 	return `${window.location.hostname}:8081`
     }
-```
-<br />
-"getAPIURL()" which is defined to return the hostname(10.10.39.165) and port(8081) of the API URL as a template string. <br />
-
-```Javascript
-function checkAPIStatus() {
+    
+    function checkAPIStatus() {
 	const req = new XMLHttpRequest();
 	try {
 	    const url = `http://${getAPIURL()}/ping?ip=${window.location.hostname}`
@@ -80,10 +79,31 @@ function checkAPIStatus() {
 		    }
 		}
 	    };
+	    req.onerror = function (e) {
+		console.error(xhr.statusText);
+	    };
+	    req.send(null);
+	}
+	catch (e) {
+	    console.error(e)
+	    console.log('API Error');
+	}
+    }
+    checkAPIStatus()
+    const interval = setInterval(checkAPIStatus, 10000);
+    const form = document.querySelector('form')
+    form.action = `http://${getAPIURL()}/auth`;
+    
+})();
 ```
+"getAPIURL()" which is defined to return the hostname(10.10.39.165) and port(8081) of the API URL as a template string. <br />
 
-The function checkAPIStatus() sends an HTTP GET request to the API endpoint /ping with a query parameter ip set to the hostname of the current page(10.10.39.165 If the request succeeds with a 200 status code, it logs a message to the console indicating that the API is running. Otherwise, it logs an error message with the status text of the failed request. If the request encounters an error, it logs the error and a message indicating that there was an API error.
 
+The function checkAPIStatus() sends an HTTP GET request to the API endpoint /ping with a query parameter ip set to the hostname of the current page(10.10.39.165) If the request succeeds with a 200 status code, it logs a message to the console indicating that the API is running. Otherwise, it logs an error message with the status text of the failed request. If the request encounters an error, it logs the error and a message indicating that there was an API error.
+
+
+The function checkAPIStatus() sends an HTTP GET request to the API endpoint /ping with a query parameter ip set to the hostname of the current page. If the request succeeds with a 200 status code, it logs a message to the console indicating that the API is running. Otherwise, it logs an error message with the status text of the failed request. If the request encounters an error, it logs the error and a message indicating that there was an API error. 
+The checkAPIStatus() function is called immediately after it is defined and then every 10 seconds using setInterval().
 
 
 
