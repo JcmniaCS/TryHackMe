@@ -44,6 +44,7 @@ Let's use gobuster to brute-force directories to see if there's anything interes
 gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:8081/
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT5.png?raw=true)<br />
+
 Interesting... Let's check out the directory /auth<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT6.png?raw=true)<br />
 This looks interesting... But we don't have any login details... Let's move on for now.<br />
@@ -51,7 +52,9 @@ This looks interesting... But we don't have any login details... Let's move on f
 ## HTTP Service Recon
 
 We're going to do the same steps as we did for the Node.js service recon, let's try to bruteforce some directories with gobuster<br />
-gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:31331/<br />
+```shell
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:31331/
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT4.png?raw=true)<br />
 Nothing really of interest, there's an e-mail address on the contact of the bottom of the webpage, we'll save it for now.<br />
 
@@ -61,7 +64,7 @@ http://10.10.39.165:31331/robots.txt
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT7.png?raw=true)<br />
 Interesting... Let's have a look at the sitemap below<br />
-````shell
+```shell
 http://10.10.39.165:31331/utech_sitemap.txt
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT8.png?raw=true)<br />
