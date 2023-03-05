@@ -30,8 +30,9 @@ Further down the webpage we see the link to an admin page and a default login, l
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Ignite/screenshots/SCREENSHOT5.png?raw=true)<br />
 Success! We've managed to login to the admin panel with the default username and password. Let's check the search engines for Fuel CMS 1.4 to see if we can find any vulnerabilities.<br />
 
-Another hit! We see an exploit-db result that affects Fuel CMS versions 1.41 and below. CVE-2018-16763 Remote Code Execution.
-Now we have two ways we can go, we're going to try the first way... Using the exploit we found! Why not?<br />
+Another hit! We see an exploit-db result that affects Fuel CMS versions 1.41 and below. CVE-2018-16763, remote Code Execution.
+Now we have two ways we can go, using the exploit we found or to try upload a reverse shell on the admin panel.<br />
+We're going to try the first way... Using the exploit we found! Why not?<br />
 First let's download the exploit onto our AttackBox - https://www.exploit-db.com/raw/50477<br />
 I downloaded it and named it exploit.py, let's run it and see if we can get a shell! This exploit requires no additional configuration.<br />
 python exploit.py<br />
