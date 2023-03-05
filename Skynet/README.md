@@ -1,6 +1,5 @@
 
 # Skynet CTF Walkthrough
-
 <p>Skynet is a vulnerable terminator themed linux machine on TryHackMe.com<br />
 <br />
 <i>THM Difficulty: Easy <br />
@@ -9,7 +8,6 @@ Completion Time: </i><br />
 </p>
 
 ## Enumeration
-
 <p>For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
 rustscan -a 10.10.90.192<br />
 SCREENSHOT<br />
@@ -18,11 +16,9 @@ nmap -sV -p22,80,110,139,143,445 10.10.90.192<br />
 SCREENSHOT2<br />
 
 ## Finding Vulnerabilities
-
-We have found a few services that could be interesting... Let's try to find some vulnerabilities.
+We have found a few services that could be interesting... Let's try to find some vulnerabilities in the services.
 
 ### HTTP Service
-
 I saw they have port 80 open running Apache httpd 2.4.18. 
 I open up my browser and head over to the website http://10.10.90.192/<br />
 SCREENSHOT3<br />
@@ -37,7 +33,6 @@ However, we have a problem... After reading the exploit I realize you need to be
 Let's go back to our Nmap scan results and try looking at one of the other interesting services for now.<br /></p>
 
 ### Samba Service
-
 <p>We can see in our Nmap scan that they have ports 139 and 445 open for a Samba. Let's try to enumerate the shares 
 and see if there's anything we can access.<br />
 smbclient -L 10.10.90.192<br />
