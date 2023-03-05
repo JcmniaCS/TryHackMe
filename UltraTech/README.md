@@ -52,6 +52,7 @@ After having a look at all of the pages we find a login page at http://10.10.39.
 
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT9.png?raw=true)<br />
 Not really helpful to us since we still don't have any login information and default credentials didn't work. Let's continue looking at the other directories we got from gobuster. <br />
+
 I came across the directory /js which had an interesting file "api.js"<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT11.png?raw=true)<br />
 This file was also in the source of the login page partners.html <br />
@@ -106,9 +107,11 @@ There are a couple of lines in this file that made me interested, can you see th
 const url = `http://${getAPIURL()}/ping?ip=${window.location.hostname}`
 	    req.open('GET', url, true);
 ```
-We know that the API URL is the Node.js service http://10.10.39.165:8081<br />
-We can see that it's sending a HTTP GET request<br />
-It looks like it's performing a ping to confirm if the API is down/up so the user can login. Let's take a look at the following URL:<br />
+- We know that the API URL is the Node.js service http://10.10.39.165:8081<br />
+- We can see that it's sending a HTTP GET request<br />
+- It looks like it's performing a ping to confirm if the API is down/up so the user can login.<br />
+
+Let's take a look at the following URL:<br />
 http://10.10.39.165:8081/ping?ip=10.10.39.165<br />
 Very interesting! This looks like the same output from a ping request sent from a Linux machine... Maybe vulnerable to command injection?<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT12.png?raw=true)<br />
