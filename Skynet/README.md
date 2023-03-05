@@ -11,7 +11,7 @@ My Difficulty: Easy<br />
 ## Enumeration
 
 For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
-```sh
+```
 rustscan -a 10.10.90.192
 ```
 
