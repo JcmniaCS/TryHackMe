@@ -27,7 +27,7 @@ I saw the target has port 80 open running Apache httpd 2.4.18.
 I open up my browser and head over to the website http://10.10.90.192/<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT3.png?raw=true)<br />
 It appears to be some kind of search engine but none of the search features are working, I decide to start up gobuster
-and try to find other directories on the webserver. I entered the command below to enumerate directories.<br />
+and try to find other directories on the webserver. I entered the command below to brute-force directories.<br />
 ```gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT4.png?raw=true)<br />
 After trying to access each directory, I receive a forbidden page from every directory other than /squirrelmail
@@ -43,7 +43,7 @@ and see if there's anything we can access.<br />
 ```smbclient -L 10.10.90.192```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT5.png?raw=true)<br />
 We were able to list the shares on the server without a password for root, we can see we have access to the shares "anonymous" and "milesdyson".
-Let's try to connect to them now and see if they have any files of interest!
+Let's try to connect to them now and see if they have any files of interest!<br />
 ```smbclient \\\\10.10.90.192\\anonymous```<br />
 Success! We were able to connect to the anonymous share without a password. Now we need to list the files avaialable on the share. <br />
 ```ls```<br />
@@ -74,13 +74,14 @@ I see there's nothing inside of the log2.txt and log3.txt so I remove those.<br 
 Let's try bruteforcing the user "milesdyson" with the passwords we got from "log1.txt" on the squirrelmail service. 
 We know there's a vulnerability in the SquirrelMail service with an available exploit. To do this we will use hydra and burp suite.<br />
 ```hydra -l milesdyson -P log1.txt 10.10.90.192 http-post-form "/squirrelmail/src/login.php:login_username=^USER^&secretkey=^PASS^&js_autodetect_results=1&just_logged_in=1:F=Unknown user:H=Cookie: squirrelmail_language=en_US; SQMSESSID=jbgcof2ofcgqh0jb5ukapj8pu3;"```<br />
-Success! We have successfuly logged in with the password "cyborg007haloterminator"<br /> 
+Success! We have successfuly logged in with the password "cyborg007haloterminator"<br />
+
 Question 1:<br />
 **What is Miles password for his emails?** cyborg007haloterminator <br />
 
 ## Exploiting Vulnerabilities
 
-Now that we have a login for the SquirrelMail server milesdyson:cyborg007haloterminator, we know about a vulnerability in this version(1.4.23) and we know about an exploit for this service(CVE-2017-7692) 
+Now that we have a login for the SquirrelMail server milesdyson:cyborg007haloterminator, we know about a potential vulnerability in this version(1.4.23) and we know about an exploit for this service(CVE-2017-7692). <br /> 
 Let's get to it!
 
 ### Exploiting SquirrelMail
@@ -107,7 +108,7 @@ There's an interesting file amongst all of the random files, let's download and 
 ```exit```<br />
 ```cat important.txt```<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/screenshots/SCREENSHOT13.png?raw=true)<br />
-Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!
+Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!<br />
 Question 2:<br />
 **What is the hidden directory?** /45kra24zxs28v3yd <br />
 Question 3:<br />
