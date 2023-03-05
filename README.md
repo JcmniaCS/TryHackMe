@@ -1,4 +1,4 @@
-# TryHackMe Write-ups
+# TryHackMe CTF write-ups
 Welcome fellow security enthusiasts,<br />
 
 This is where I post all of my write-ups for TryHackMe's CTF challenges. This is an on-going list and more will be added frequently. Below you will find a list of the boxes categorized by difficulty.<br />
