@@ -41,9 +41,9 @@ This looks interesting... But we don't have any login details... Let's move on f
 We're going to do the same steps as we did for the Node.js service recon, let's try to bruteforce some directories with gobuster<br />
 gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.39.165:31331/<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT4.png?raw=true)<br />
-
 Nothing really of interest, there's an e-mail address on the contact of the bottom of the webpage, we'll save it for now.<br />
-Let's see if they have a robots.txt file at http://10.10.39.165:31331/robots.txt
+
+Let's see if they have a robots.txt file at http://10.10.39.165:31331/robots.txt<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT7.png?raw=true)<br />
 Interesting... Let's have a look at the sitemap at http://10.10.39.165:31331/utech_sitemap.txt<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT8.png?raw=true)<br />
