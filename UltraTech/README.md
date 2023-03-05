@@ -53,10 +53,9 @@ I came across the directory /js which had an interesting file "api.js"<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT11.png?raw=true)<br />
 This file was also in the source of the login page partners.html <br />
 
+## Looking for vulnerabilities
 
-## api.js breakdown - you can skip this step if you like.
-
-Let's break down the api.js file to make it easier to understand.<br />
+Let's take a loot at the api.js file
 ```Javascript
 (function() {
     console.warn('Debugging ::');
@@ -96,14 +95,24 @@ Let's break down the api.js file to make it easier to understand.<br />
     
 })();
 ```
-"getAPIURL()" which is defined to return the hostname(10.10.39.165) and port(8081) of the API URL as a template string. <br />
+We know a couple of things now, this file api.js uses the Node.js service as it's API and it's used to process the logins from /partners.html on the HTML service.<br />
 
+There are a couple of lines in this file that made me interested, can you see them?<br />
 
-The function checkAPIStatus() sends an HTTP GET request to the API /ping with an IP set to the hostname of the current page(10.10.39.165) If the request succeeds with a 200 status code, it logs a message to the console indicating that the API is running. Otherwise, it logs an error message with the status text of the failed request. If the request encounters an error, it logs the error and a message indicating that there was an API error.
-
-
-The checkAPIStatus() function is called immediately after it is defined and then every 10 seconds using setInterval().
-
+```Javascript
+const url = `http://${getAPIURL()}/ping?ip=${window.location.hostname}`
+	    req.open('GET', url, true);
+```
+We know that the API URL is the Node.js service http://10.10.39.165:8081<br />
+We can see that it's sending a HTTP GET request<br />
+It looks like it's performing a ping to confirm if the API is down/up so the user can login. Let's take a look at the following URL:<br />
+http://10.10.39.165:8081/ping?ip=10.10.39.165<br />
+Very interesting! This looks like the same output from a ping request sent from a Linux machine...<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT12.png?raw=true)<br />
+What if we changed the request to something else? Let's see what happens when we try to add a list command at the end<br />
+http://10.10.39.165:8081/ping?ip=10.10.39.165;ls<br />
+Hmm nothing happened, let's try that again<br />
+http://10.10.39.165:8081/ping?ip=10.10.39.165;`ls` <br />
 
 
 ## Questions & Answers
