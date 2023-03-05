@@ -112,5 +112,20 @@ SCREENSHOT13<br />
 Oooh! An interesting find... It looks like a directory on the webserver. It's probably the answer to our second question!</p>
 Question 2:<br />
 **What is the hidden directory?** /45kra24zxs28v3yd <br />
+Question 3:<br />
+**What is the vulnerability called when you can include a remote file for malicious purposes?** Remote File Inclusion <br />
+The answer was Remote File Inclusion but we found an exploit for Remote File Execution... Maybe more than one exploit?<br />
+<p>Let's try to exploit the vulnerability we found with the exploit CVE-2017-7692. <br />
+The exploit I will be using for this can be located here: https://legalhackers.com/advisories/SquirrelMail-Exploit-Remote-Code-Exec-CVE-2017-7692-Vuln.html <br />
+Firstly I download the exploit and save it as exploit.sh in my /root directory (THM AttackBox Default Terminal Directory). We need to change the permissions of the file BEFORE executing it.<br />
+chmod +x exploit.sh<br />
+./exploit.sh http://10.10.90.192/squirrelmail<br />
+Enter the username and password for the squirrelmail service.<br />
+SCREENSHOT14<br />
+Something went wrong... We'll come back to this exploit later and see if we can figure out what went wrong. 
+Let's try going back to the secret directory we received earlier...<br />
+
+## Back to enumerating
+
 
 
