@@ -159,8 +159,8 @@ http://10.10.39.165:8081/ping?ip=10.10.39.165;`cat utech.db.sqlite`
 ```
 Interesting... We've found 2 users(r00t, admin) along with their password hashes!<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/screenshots/SCREENSHOT15.png?raw=true)<br />
-Let's try to crack the hashes and see what we can do with them! We know the hashes are MD5.<br />
-We've found the password now let's try to login...<br />
+Let's try to crack the hashes and see what we can do with them! We know the hashes are MD5. 
+I used an online decryption service instead of waiting, I have the password now let's try to login...<br />
 
 ## SSH Service Recon
 We're going to try logging into the SSH service we found earlier.<br />
