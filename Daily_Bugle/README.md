@@ -31,7 +31,37 @@ We're going to start with looking at the HTTP Service, we can see it's running A
 http://10.10.217.112/
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT3.png?raw=true)<br />
-Here we have our answer to the first question!
+Here we have our answer to the first question!<br />
+
+Let's try having bruteforcing some directories with gobuster. I used the command below<br />
+```shell
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.217.112/
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT4.png?raw=true)<br />
+We are given plenty of results, the one that stood out to me was the /administrator directory, probably the login page for the administrators account? Let's have a look at it now<br />
+```shell
+http://10.10.217.112/administrator/
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT5.png?raw=true)<br />
+Our suspicions are confirmed, we know know that the web service is using Joomla! I wonder what version of Joomla they're using..?
+I know there's a module on Metasploit that does this so let's fire it up!<br />
+```shell
+msfconsole
+```
+Now that we have our metasploit loaded, let's look for the joomla version module.<br />
+```shell
+search joomla_version
+use 0
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT6.png?raw=true)<br />
+Now we have selected our module let's see what options it requires by using show options
+```shell
+show options
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT7.png?raw=true)<br />
+
+
+
 
 
 
