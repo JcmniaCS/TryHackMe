@@ -275,7 +275,7 @@ cd /root
 ls
 cat root.txt
 ```
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT33.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT34.png?raw=true)<br />
 
 ### Extra Learning
 
