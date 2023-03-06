@@ -279,12 +279,12 @@ cat root.txt
 
 ### Extra Learning
 
-The privilege escalation technique we used makes use of runnning yum as sudo.<br />
-```TF=$(mktemp -d)``` creates a temporary directory.<br />
-Afterwards, three files(x, y.conf, y.py) are created inside the temp directory by catting content into them.<br />
-```EOF``` This is to designate End Of File(EOF) to stop catting input into a file.<br />
-```sudo yum -c $TF/x --enableplugin=y``` simply executes a regular yum command, enabling the plugin "y" which is one of the just created files mentioned above.<br />
-```def init_hook(conduit): os.execl('/bin/sh','/bin/sh')``` will then be executed giving you a shell as root since you executed it with sudo.<br />
+- The privilege escalation technique we used makes use of runnning yum as sudo.<br />
+- ```TF=$(mktemp -d)``` creates a temporary directory.<br />
+- Afterwards, three files(x, y.conf, y.py) are created inside the temp directory by catting content into them.<br />
+- ```EOF``` This is to designate End Of File(EOF) to stop catting input into a file.<br />
+- ```sudo yum -c $TF/x --enableplugin=y``` simply executes a regular yum command, enabling the plugin "y" which is one of the just created files mentioned above.<br />
+- ```def init_hook(conduit): os.execl('/bin/sh','/bin/sh')``` will then be executed giving you a shell as root since you executed it with sudo.<br />
 
 ## Questions & Answers
 
