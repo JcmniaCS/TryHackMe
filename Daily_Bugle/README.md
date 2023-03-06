@@ -5,7 +5,7 @@ Daily Bugle is a vulnerable server on TryHackMe.com<br />
 <br />
 <i>URL: https://tryhackme.com/room/dailybugle<br />
 THM Difficulty: Hard<br />
-My Difficulty: TBA<br />
+My Difficulty: Medium<br />
 Target IP: 10.10.217.112<br />
 AttackBox IP: 10.10.222.48<br />
 </i>
