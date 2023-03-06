@@ -117,7 +117,7 @@ sqlmap -u "http://10.10.217.112/index.php?option=com_fields&view=fields&layout=m
 If you receive any messages or requests during the process just follow what I did below. If you understand what it's asking you, feel free to say no until you get the tables you want to dump.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT14.png?raw=true)<br />
 
-
+### Just the #__users table and columns
 
 In the example below I only pulled the table #__users and the columns, this is what you'll want to do if you want to skip dumping the whole database.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT15.png?raw=true)<br />
