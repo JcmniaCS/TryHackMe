@@ -17,5 +17,6 @@ Skynet - https://github.com/JcmniaCS/TryHackMe/blob/main/Skynet/README.md<br />
 UltraTech - https://github.com/JcmniaCS/TryHackMe/blob/main/UltraTech/README.md<br />
 
 ## Hard
+Daily Bugle - https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/README.md<br />
 
 ## Insane
