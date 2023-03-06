@@ -45,7 +45,7 @@ http://10.10.217.112/administrator/
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT5.png?raw=true)<br />
 Our suspicion is confirmed, we know know that the web service is using Joomla!<br />
 
-### Finding Joomla version with Metasploit
+## Finding Joomla version with Metasploit
 
 I wonder what version of Joomla they're using..? I know there's a module on Metasploit that does this so let's fire it up!<br />
 ```shell
@@ -70,7 +70,7 @@ exploit
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT8.png?raw=true)<br />
 Success! We have found the version! This is also one of the answers to our questions. Let's see if this version has any vulnerabilities.
 
-### Exploiting Joomla with Metasploit
+## Exploiting Joomla with Metasploit
 
 We are now going to look for exploits in Joomla 3.7, let's continue in the Metasploit console and execute the folowing<br />
 ```shell
@@ -101,7 +101,7 @@ http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[f
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT12.png?raw=true)<br />
 We get the error message which confirms it's vulnerable to SQL injection. Let's try using SQLmap instead they have the syntax for the command on the exploit-db page.<br />
 
-### Exploiting Joomla with SQLi using SQLMap
+## Exploiting Joomla with SQLi using SQLMap
 
 We're going to open up a new terminal and try the below command.<br />
 ```shell
@@ -122,9 +122,22 @@ If you receive any messages or requests during the process just follow what I di
 In the example below I only pulled the table #__users and the columns, this is what you'll want to do if you want to skip dumping the whole database.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT15.png?raw=true)<br />
 
+## Extracting data from the dumped database
 
-
-
+SQLMap usually saves its output in the current users home directory, for example mine is /root/.sqlmap/output/10.10.217.112/dump/joomla<br />
+Let's have a look at the __users column that we pulled. <br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT16.png?raw=true)<br />
+Uh-oh that doesn't look right... There are a load of duplicates and the format has been ruined. At the top of the file we see the column names, let's try to work out which of the data is the user, password and e-mail.
+```shell
+id, name, email, params, username, password
+```
+My guess is that the e-mail is jonah@tryhackme.com, the username is Jonah, and the password hash $2y$10$0veO/JSFh4389Lluc4Xya.dfy2MF.bZhz0jVMw.V.d3p12kBtZutm<br />
+Let's try to crack the hash with John The Ripper! Paste the password hash into a new file and name it jonah.hash in your home directory, AttackBox would be /root/
+```shell
+john -format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt jonah.hash
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT17.png?raw=true)<br />
+Success! Let John do it's thing, once you get the password answer the question and move to the next section.
 
 
 
