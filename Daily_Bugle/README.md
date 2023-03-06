@@ -131,10 +131,11 @@ Uh-oh that doesn't look right... There are a load of duplicates and the format h
 ```shell
 id, name, email, params, username, password
 ```
-Here's my guess
+Here's my guess for the username, password and e-mail.
 - the e-mail is jonah@tryhackme.com
 - the username is Jonah
 - the password hash $2y$10$0veO/JSFh4389Lluc4Xya.dfy2MF.bZhz0jVMw.V.d3p12kBtZutm<br />
+
 Let's try to crack the hash with John The Ripper! Paste the password hash into a new file and name it jonah.hash in your home directory, AttackBox would be /root/
 ```shell
 john -format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt jonah.hash
