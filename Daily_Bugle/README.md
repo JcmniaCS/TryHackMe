@@ -43,7 +43,9 @@ We are given plenty of results, the one that stood out to me was the /administra
 http://10.10.217.112/administrator/
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT5.png?raw=true)<br />
-Our suspicions are confirmed, we know know that the web service is using Joomla!<br />
+Our suspicion is confirmed, we know know that the web service is using Joomla!<br />
+
+### Finding Joomla version with Metasploit
 
 I wonder what version of Joomla they're using..? I know there's a module on Metasploit that does this so let's fire it up!<br />
 ```shell
