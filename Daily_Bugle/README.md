@@ -283,15 +283,8 @@ This privilege escalation technique makes use of the user privilege to run yum a
 ```TF=$(mktemp -d)``` creates a temporary directory.<br />
 ```EOF``` This is to designate End Of File(EOF) to stop catting input into a file.<br />
 Afterwards, three files(x, y.conf, y.py) are created inside the temp directory by catting content into them.<br />
-Let's say you were to cat the x file after catting content into them, this is what the file would look like.<br />
-```shell
-[main]
-plugins=1
-pluginpath=$TF
-pluginconfpath=$TF
-```
-
-The last step: sudo yum -c $TF/x --enableplugin=y simply executes a regular yum command, making use of the just created files mentioned above. The payload def init_hook(conduit): os.execl('/bin/sh','/bin/sh') will then be executed giving you a shell as root since you execute it with sudo.
+```sudo yum -c $TF/x --enableplugin=y``` simply executes a regular yum command, enabling the plugin "y" which is one of the just created files mentioned above.<br />
+```def init_hook(conduit): os.execl('/bin/sh','/bin/sh')``` will then be executed giving you a shell as root since you executed it with sudo.<br />
 
 ## Questions & Answers
 
