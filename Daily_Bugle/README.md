@@ -147,8 +147,9 @@ Success! Let John do it's thing, once you get the password answer the question a
 
 ## Username and Password attempts
 
-
-
+Let's try the username and password we got previously on the administrator page of Joomla on the HTTP service.
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT18.png?raw=true)<br />
+Success! Let's have a look around the Control Panel and see what's accessible to us.
 
 
 ## Questions & Answers
