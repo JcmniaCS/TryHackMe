@@ -234,7 +234,7 @@ Interesting... Let's check out GTFObins and see if we can use yum to get root pr
 ```
 https://gtfobins.github.io/gtfobins/yum/
 ```
-So it's possible to exploit yum by generating our own rpm package and installing it on the target. Let's do this now.<br />
+So it's possible to exploit yum by generating our own rpm package and installing it on the target or to spawn an interactive root shell... Let's do this now.<br />
 
 ### Using GTFObins to escalate our privileges
 
