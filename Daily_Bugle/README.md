@@ -136,12 +136,18 @@ Here's my guess for the username, password and e-mail.
 - the username is Jonah
 - the password hash $2y$10$0veO/JSFh4389Lluc4Xya.dfy2MF.bZhz0jVMw.V.d3p12kBtZutm<br />
 
+## Cracking the hash we got previously with John
+
 Let's try to crack the hash with John The Ripper! Paste the password hash into a new file and name it jonah.hash in your home directory, AttackBox would be /root/
 ```shell
 john -format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt jonah.hash
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/screenshots/SCREENSHOT17.png?raw=true)<br />
 Success! Let John do it's thing, once you get the password answer the question and move to the next section.
+
+## Username and Password attempts
+
+
 
 
 
