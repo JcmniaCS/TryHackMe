@@ -5,7 +5,7 @@ Relevant is a vulnerable server on TryHackMe.com<br />
 <br />
 <i>URL: https://tryhackme.com/room/Relevant<br />
 THM Difficulty: Medium<br />
-My Difficulty: TBA<br />
+My Difficulty: Easy<br />
 Target IP: 10.10.39.76<br />
 AttackBox IP: 10.10.153.77<br />
 </i>
