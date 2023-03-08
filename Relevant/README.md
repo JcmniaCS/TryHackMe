@@ -80,12 +80,16 @@ We have found a few open ports with different services, let's try to find some v
 
 ## SMB Service Enumeration
 
-Firstly we'll try using the SMB enum scripts that Nmap has to offer<br />
+### Nmap SMB-enum scripts
+
+Firstly we'll try using the SMB-enum scripts on Nmap<br />
 ```shell
 nmap -p 139,445 -Pn -script smb-enum* 10.10.39.76
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT7.png?raw=true)<br />
 Interesting, we have read/write access on this share... We'll try to use that to exploit the service if we can't find anything else.<br />
+
+### Nmap SMB-vuln scripts
 
 Let's do the same thing but with the SMB vuln scripts to see if there are any vulnerabilities.<br />
 ```shell
@@ -94,11 +98,16 @@ nmap -p 139,445 -Pn -script smb-vuln* 10.10.39.76
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT6.png?raw=true)<br />
 Bingo! It looks like the SMB server is vulnerable to MS17-010. We'll enumerate more then exploit this!<br />
 
+### Listing SMB shares
+
 Let's have a look at the SMB service, we'll try to list the shares on the system to see if we can access anything.<br />
 ```shell
 smbclient -L 10.10.39.76
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT2.png?raw=true)<br />
+
+### Listing files on SMB shares
+
 We were able to list the shares without entering a password and it looks like we have access to the share "nt4wrksv". Let's try connecting to the share now and listing the contents.<br />
 ```shell
 smbclient \\\\10.10.39.76\\nt4wrksv
@@ -163,7 +172,7 @@ http://10.10.39.76:49663/nt4wrksv/shell.aspx
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT10.png?raw=true)<br />
 Success! Now we have our reverse meterpreter shell. (The target box crashed so I had to restart it, it's a new IP if you didn't notice.)<br />
 
-## Escalating Privileges
+# Escalating Privileges
 
 Let's check what user we're on and then spawn a shell and check our privileges.<br />
 ```shell
