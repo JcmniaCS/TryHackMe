@@ -10,17 +10,21 @@ Target IP: <br />
 AttackBox IP: <br />
 </i>
 
-# Recon
+# Enumeration
 
 For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
-```rustscan -a TARGET```<br />
+```shell
+rustscan -a TARGET
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Box/screenshots/SCREENSHOT1.png?raw=true)<br />
 Now we know which ports are open, I run an Nmap scan with the flag -sV to find the service versions on the open ports.<br />
-```nmap -sV -p80 TARGET```<br />
+```
+nmap -sV -p80 TARGET
+```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Box/screenshots/SCREENSHOT2.png?raw=true)<br />
 
 
-## ?? Service Recon
+## ?? Service Enumeration
 
 
 
