@@ -19,5 +19,6 @@ Relevant - https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/README.md<br
 
 ## Hard
 Daily Bugle - https://github.com/JcmniaCS/TryHackMe/blob/main/Daily_Bugle/README.md<br />
+Internal - https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/README.md<br />
 
 ## Insane
