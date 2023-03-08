@@ -102,7 +102,7 @@ Awesome! We have two accounts now, but we have nowhere to use them... Let's use 
 ```shell
 nmap -p 139,445 -Pn -script smb-vuln* 10.10.39.76
 ```
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT5.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT6.png?raw=true)<br />
 Bingo! It looks like the SMB server is vulnerable to MS17-010. Let's try to exploit the vulnerability.<br />
 
 
