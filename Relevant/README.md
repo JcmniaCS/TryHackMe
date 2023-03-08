@@ -10,7 +10,7 @@ Target IP: 10.10.39.76<br />
 AttackBox IP: 10.10.153.77<br />
 </i>
 
-# Recon
+# Enumeration
 
 For our first command we will use rustscan, rustscan will scan all of the ports in around 3 seconds.<br />
 ```shell
@@ -76,13 +76,41 @@ Host script results:
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 94.63 seconds
 ```
-We have found multiple services, let's try to find some vulnerabilities!
+We have found a few open ports with different services, let's try to find some vulnerabilities!
 
-## ?? Service Recon
+## SMB Service Enumeration
+
+Let's have a look at the SMB service, we'll try to list the shares on the system to see if we can access anything.<br />
+```shell
+smbclient -L 10.10.39.76
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT2.png?raw=true)<br />
+We were able to list the shares without entering a password and it looks like we have access to the share "nt4wrksv". Let's try connecting to the share now and listing the contents.<br />
+```shell
+smbclient \\\\10.10.39.76\\nt4wrksv
+ls
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT3.png?raw=true)<br />
+Ooh a file named ```passwords.txt``` let's download the file and have a look inside...
+```shell
+get passwords.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT4.png?raw=true)<br />
+Inside we see two passwords that have been encoded... Looks like Base64 to me, let's try decoding them!<br />
+
+Awesome! We have two accounts now, but we have nowhere to use them... Let's use Nmap to see if the SMB is vulnerable.<br />
+```shell
+nmap -p 139,445 -Pn -script smb-vuln* 10.10.39.76
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT5.png?raw=true)<br />
+Bingo! It looks like the SMB server is vulnerable to MS17-010. Let's try to exploit the vulnerability.<br />
 
 
 
 ## Questions & Answers
+
+Bob - !P@$$W0rD!123
+Bill - Juw4nnaM4n420696969!$$$
 
 Question 1:<br />
 **What is the user flag?** <br />
