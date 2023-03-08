@@ -188,12 +188,13 @@ Let's close our shell with Ctrl+C and use meterpreter to execute the following<b
 getsystem
 getuid
 ```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT12.png?raw=true)<br />
 Awesome! We have successfully elevated our privileges. Let's get the root flag and complete the box.<br />
 ```shell
 cd C:/Users/Administrator/Desktop
 cat root.txt
 ```
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT12.png?raw=true)<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT13.png?raw=true)<br />
 
 
 ## Questions & Answers
