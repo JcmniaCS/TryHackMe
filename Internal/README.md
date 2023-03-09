@@ -188,7 +188,7 @@ ls
 cat root.txt
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT32.png?raw=true)<br />
-Finally! This one was long.
+Finally! This one took me a while, I didn't include a lot of the enumeration and all the ways I tried to escalate my privileges so it took me a lot longer than it looks.
 
 ## Questions & Answers
 
