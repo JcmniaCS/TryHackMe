@@ -168,9 +168,9 @@ rlwrap nc -nlvp 9500
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT23.png?raw=true)<br />
 Okay now we're all setup let's run it, click the blue "Run" button.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT29.png?raw=true)<br />
-Success! Let's have a look around and see if we can find the root flag.
+Success! Let's have a look around and see if we can find the root flag.<br />
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT30.png?raw=true)<br />
-Permission denied still... Damn let's look for another way around it. While checking ways to escalate my privileges I thought I'd check the ```/opt``` directory in-case there's credentials inside the folder again.
+Permission denied still... Damn let's look for another way around it. While checking ways to escalate my privileges I thought I'd check the ```/opt``` directory in-case there's credentials inside the folder again.<br />
 ```
 cd /opt
 ls
@@ -189,7 +189,6 @@ cat root.txt
 ```
 ![alt text](https://github.com/JcmniaCS/TryHackMe/blob/main/Internal/screenshots/SCREENSHOT32.png?raw=true)<br />
 Finally! This one was long.
-
 
 ## Questions & Answers
 
