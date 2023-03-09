@@ -5,7 +5,7 @@ Internal is a vulnerable server on TryHackMe.com<br />
 <br />
 <i>URL: https://tryhackme.com/room/Internal<br />
 THM Difficulty: Hard<br />
-My Difficulty: TBA<br />
+My Difficulty: Hard<br />
 Target IP: 10.10.44.166<br />
 AttackBox IP: 10.10.153.77<br />
 </i>
